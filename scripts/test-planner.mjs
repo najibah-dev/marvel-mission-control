@@ -1,0 +1,30 @@
+import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import { planRoute, CONNECTIONS } from '../lib/planner.mjs';
+const movies=JSON.parse(readFileSync(new URL('../lib/catalog.json',import.meta.url),'utf8'));
+let scenarios=0;
+const histories=[[],['iron-man'],['avengers','guardians'],['infinity-war'],movies.map(m=>m.id)];
+for(const watched of histories)for(let hours=0;hours<=30;hours+=.5){
+ const p=planRoute(movies,hours,watched);scenarios++;
+ assert(p.used<=Math.floor(hours*60));
+ assert(p.selected.every(m=>!watched.includes(m.id)));
+ assert.equal(new Set(p.selected.map(m=>m.id)).size,p.selected.length);
+ assert.deepEqual(p.selected.map(m=>m.release),p.selected.map(m=>m.release).sort());
+ assert.equal(p.used,p.fits?p.selected.reduce((n,m)=>n+m.runtime,0)+(p.destinationWatched?0:149):0);
+ if(!p.fits)assert.equal(p.selected.length,0);
+}
+assert.equal(planRoute(movies,149/60,[]).used,149);
+assert.equal(planRoute(movies,148/60,[]).fits,false);
+assert.equal(planRoute(movies,2.5,[]).gaps.filter(([,to])=>to==='infinity-war').length,6);
+assert.equal(planRoute(movies,30,[]).gaps.length,0);
+assert.equal(planRoute(movies,0,['infinity-war']).gaps.length,0);
+assert(!planRoute(movies,2.5,['guardians']).gaps.some(([from])=>from==='guardians'));
+assert.equal(planRoute(movies,30,[]).selected.length,11);
+assert.equal(planRoute(movies,0,movies.map(m=>m.id)).used,0);
+assert.notDeepEqual(planRoute(movies,8,[]).selected,planRoute(movies,20,[]).selected);
+for(const invalid of [-1,NaN,Infinity,31])assert.throws(()=>planRoute(movies,invalid,[]));
+assert.throws(()=>planRoute(movies,8,['unknown']));
+assert.equal(new Set(movies.map(m=>m.id)).size,12);
+assert(movies.every(m=>Number.isInteger(m.runtime)&&m.runtime>0&&m.source.startsWith('https://')));
+for(const [a,b] of CONNECTIONS)assert(movies.find(m=>m.id===a).release<movies.find(m=>m.id===b).release);
+console.log(`PASS: ${scenarios} budget/history scenarios; exact runtime boundaries; invalid inputs; catalog and forward-only edges.`);

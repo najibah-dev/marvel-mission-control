@@ -1,0 +1,316 @@
+[
+  {
+    "id": "iron-man",
+    "sourceId": "37",
+    "title": "Iron Man",
+    "year": 2008,
+    "release": "2008-05-02",
+    "runtime": 126,
+    "poster": "https://image.tmdb.org/t/p/w500/78lPtwv72eTNqFW9COBYI0dWDJa.jpg",
+    "weight": 3,
+    "topics": [
+      "avengers"
+    ],
+    "x": 90,
+    "y": 115,
+    "intro": "Meet Tony Stark, the inventor behind the armor.",
+    "why": "A useful starting point for the human side of the Avengers. Adds Tony\u2019s origin, rather than a new story world.",
+    "gap": "Tony Stark\u2019s origin and motivation.",
+    "source": "https://www.imdb.com/title/tt0371746/",
+    "cast": [
+      "Robert Downey Jr.",
+      "Terrence Howard",
+      "Jeff Bridges"
+    ],
+    "runtimeProvenance": "Kaggle runtime; external title reference",
+    "ragSourceId": "37"
+  },
+  {
+    "id": "thor",
+    "sourceId": "44",
+    "title": "Thor",
+    "year": 2011,
+    "release": "2011-05-06",
+    "runtime": 115,
+    "poster": "https://image.tmdb.org/t/p/w500/prSfAi1xGrhLQNxVSUFh61xQ4Qy.jpg",
+    "weight": 3,
+    "topics": [
+      "asgard"
+    ],
+    "x": 90,
+    "y": 335,
+    "intro": "Meet Thor and the world of Asgard.",
+    "why": "Introduces the family and setting behind Thor\u2019s later adventures. A gentler entry into the Asgard branch.",
+    "gap": "Thor\u2019s family background and Asgard.",
+    "source": "https://www.imdb.com/title/tt0800369/",
+    "cast": [
+      "Chris Hemsworth",
+      "Natalie Portman",
+      "Tom Hiddleston"
+    ],
+    "runtimeProvenance": "Kaggle runtime; external title reference",
+    "ragSourceId": "44"
+  },
+  {
+    "id": "first-avenger",
+    "sourceId": "46",
+    "title": "Captain America: The First Avenger",
+    "year": 2011,
+    "release": "2011-07-22",
+    "runtime": 124,
+    "poster": "https://image.tmdb.org/t/p/w500/vSNxAJTlD0r02V9sPYpOjqDZXUK.jpg",
+    "weight": 3,
+    "topics": [
+      "avengers"
+    ],
+    "x": 90,
+    "y": 555,
+    "intro": "Meet Steve Rogers before he joins the Avengers.",
+    "why": "Provides Steve\u2019s origin and values. Helpful character background before the team stories.",
+    "gap": "Steve Rogers\u2019s origin and values.",
+    "source": "https://en.wikipedia.org/wiki/Captain_America:_The_First_Avenger",
+    "cast": [
+      "Chris Evans",
+      "Hayley Atwell",
+      "Sebastian Stan"
+    ],
+    "runtimeProvenance": "Kaggle runtime; external title reference",
+    "ragSourceId": "46"
+  },
+  {
+    "id": "avengers",
+    "sourceId": "51",
+    "title": "The Avengers",
+    "year": 2012,
+    "release": "2012-05-04",
+    "runtime": 143,
+    "poster": "https://image.tmdb.org/t/p/w500/RYMX2wcKCBAr24UyPD7xwmjaTn.jpg",
+    "weight": 9,
+    "topics": [
+      "avengers",
+      "asgard"
+    ],
+    "x": 305,
+    "y": 115,
+    "intro": "Earth\u2019s heroes learn to work as a team.",
+    "why": "Our strongest early team introduction: it brings the core heroes together and connects Earth with a larger world.",
+    "gap": "The original Avengers team dynamic.",
+    "source": "https://www.imdb.com/title/tt0848228/",
+    "cast": [
+      "Robert Downey Jr.",
+      "Chris Evans",
+      "Mark Ruffalo"
+    ],
+    "runtimeProvenance": "Kaggle runtime; external title reference",
+    "ragSourceId": "51"
+  },
+  {
+    "id": "winter-soldier",
+    "sourceId": "57",
+    "title": "Captain America: The Winter Soldier",
+    "year": 2014,
+    "release": "2014-04-04",
+    "runtime": 136,
+    "poster": "https://image.tmdb.org/t/p/w500/tVFRpFw3xTedgPGqxW0AOI8Qhh0.jpg",
+    "weight": 4,
+    "topics": [
+      "avengers",
+      "division"
+    ],
+    "x": 305,
+    "y": 335,
+    "intro": "A grounded espionage story with Steve and Natasha.",
+    "why": "Adds context for Steve\u2019s relationships and the Earth-side political tensions explored in Civil War.",
+    "gap": "Steve\u2019s relationships and the espionage side of the MCU.",
+    "source": "https://movies.disney.com/captain-america-the-winter-soldier",
+    "cast": [
+      "Chris Evans",
+      "Samuel L. Jackson",
+      "Scarlett Johansson"
+    ],
+    "runtimeProvenance": "Kaggle; cross-checked with Disney",
+    "ragSourceId": "57"
+  },
+  {
+    "id": "guardians",
+    "sourceId": "60",
+    "title": "Guardians of the Galaxy",
+    "year": 2014,
+    "release": "2014-08-01",
+    "runtime": 121,
+    "poster": "https://image.tmdb.org/t/p/w500/r7vmZjiyZw9rpJMQJdXpjgiCOk9.jpg",
+    "weight": 9,
+    "topics": [
+      "cosmic"
+    ],
+    "x": 305,
+    "y": 555,
+    "intro": "Meet a very different team, far from Earth.",
+    "why": "Introduces the Guardians and the cosmic branch. It broadens a short route beyond the Earth-based Avengers.",
+    "gap": "The Guardians team and its cosmic setting.",
+    "source": "https://movies.disney.com/marvels-guardians-of-the-galaxy",
+    "cast": [
+      "Chris Pratt",
+      "Zoe Salda\u00f1a",
+      "Dave Bautista"
+    ],
+    "runtimeProvenance": "Kaggle; cross-checked with Disney",
+    "ragSourceId": "60"
+  },
+  {
+    "id": "ultron",
+    "sourceId": "65",
+    "title": "Avengers: Age of Ultron",
+    "year": 2015,
+    "release": "2015-05-01",
+    "runtime": 141,
+    "poster": "https://image.tmdb.org/t/p/w500/4ssDuvEDkSArWEdyBl2X5EHvYKU.jpg",
+    "weight": 6,
+    "topics": [
+      "avengers",
+      "division"
+    ],
+    "x": 520,
+    "y": 115,
+    "intro": "The team faces a threat of its own making.",
+    "why": "Builds on the Avengers ensemble and expands its relationships before later team conflicts.",
+    "gap": "The expanded Avengers ensemble and its relationships.",
+    "source": "https://movies.disney.com/marvels-avengers-age-of-ultron",
+    "cast": [
+      "Robert Downey Jr.",
+      "Chris Hemsworth",
+      "Mark Ruffalo"
+    ],
+    "runtimeProvenance": "Kaggle; cross-checked with Disney",
+    "ragSourceId": "65"
+  },
+  {
+    "id": "civil-war",
+    "sourceId": "74",
+    "title": "Captain America: Civil War",
+    "year": 2016,
+    "release": "2016-05-06",
+    "runtime": 147,
+    "poster": "https://image.tmdb.org/t/p/w500/rAGiXaUfPzY7CDEyNKUofk3Kw2e.jpg",
+    "weight": 8,
+    "topics": [
+      "division",
+      "avengers"
+    ],
+    "x": 735,
+    "y": 115,
+    "intro": "The heroes disagree about who should oversee them.",
+    "why": "Explores the team\u2019s disagreements. A high-priority bridge in this curated route, with earlier team context helpful.",
+    "gap": "The disagreement between the Avengers.",
+    "source": "https://movies.disney.com/captain-america-civil-war",
+    "cast": [
+      "Chris Evans",
+      "Robert Downey Jr.",
+      "Scarlett Johansson"
+    ],
+    "runtimeProvenance": "Kaggle; cross-checked with Disney",
+    "ragSourceId": "74"
+  },
+  {
+    "id": "strange",
+    "sourceId": "78",
+    "title": "Doctor Strange",
+    "year": 2016,
+    "release": "2016-11-04",
+    "runtime": 115,
+    "poster": "https://image.tmdb.org/t/p/w500/xf8PbyQcR5ucXErmZNzdKR0s8ya.jpg",
+    "weight": 7,
+    "topics": [
+      "magic"
+    ],
+    "x": 520,
+    "y": 335,
+    "intro": "Discover the mystical side of the Marvel universe.",
+    "why": "Introduces Stephen Strange and the magical branch. Adds a distinct setting to an otherwise Earth-and-space route.",
+    "gap": "Stephen Strange and the mystical side of the MCU.",
+    "source": "https://movies.disney.com/doctor-strange",
+    "cast": [
+      "Benedict Cumberbatch",
+      "Chiwetel Ejiofor",
+      "Rachel McAdams"
+    ],
+    "runtimeProvenance": "Kaggle; cross-checked with Disney",
+    "ragSourceId": "78"
+  },
+  {
+    "id": "ragnarok",
+    "sourceId": "87",
+    "title": "Thor: Ragnarok",
+    "year": 2017,
+    "release": "2017-11-03",
+    "runtime": 130,
+    "poster": "https://image.tmdb.org/t/p/w500/rzRwTcFvttcN1ZpX2xv4j3tSdJu.jpg",
+    "weight": 7,
+    "topics": [
+      "asgard"
+    ],
+    "x": 735,
+    "y": 335,
+    "intro": "Return to Thor\u2019s world for a cosmic adventure.",
+    "why": "Our later Asgard checkpoint before Infinity War. The earlier Thor film gives more family background.",
+    "gap": "Thor\u2019s later journey and the Asgard branch.",
+    "source": "https://movies.disney.com/thor-ragnarok",
+    "cast": [
+      "Chris Hemsworth",
+      "Mark Ruffalo",
+      "Tom Hiddleston"
+    ],
+    "runtimeProvenance": "Kaggle; cross-checked with Disney",
+    "ragSourceId": "87"
+  },
+  {
+    "id": "black-panther",
+    "sourceId": "91",
+    "title": "Black Panther",
+    "year": 2018,
+    "release": "2018-02-16",
+    "runtime": 134,
+    "poster": "https://image.tmdb.org/t/p/w500/uxzzxijgPIY7slzFvMotPv8wjKA.jpg",
+    "weight": 7,
+    "topics": [
+      "wakanda"
+    ],
+    "x": 735,
+    "y": 555,
+    "intro": "Discover T\u2019Challa and the nation of Wakanda.",
+    "why": "Introduces Wakanda\u2019s people and setting. Adds a distinct world that is represented in Infinity War.",
+    "gap": "Wakanda\u2019s people, technology, and setting.",
+    "source": "https://movies.disney.com/black-panther",
+    "cast": [
+      "Chadwick Boseman",
+      "Michael B. Jordan",
+      "Lupita Nyong'o"
+    ],
+    "runtimeProvenance": "Kaggle; cross-checked with Disney",
+    "ragSourceId": "91"
+  },
+  {
+    "id": "infinity-war",
+    "sourceId": "94",
+    "title": "Avengers: Infinity War",
+    "year": 2018,
+    "release": "2018-04-27",
+    "runtime": 149,
+    "poster": "https://image.tmdb.org/t/p/w500/7WsyChQLEftFiDOVTGkv3hFpyyt.jpg",
+    "weight": 0,
+    "topics": [],
+    "x": 950,
+    "y": 335,
+    "intro": "The Avengers and their allies face a shared threat.",
+    "why": "Your destination brings the Earth, cosmic, and mystical branches together. This route offers background, not a guarantee of complete understanding.",
+    "gap": "",
+    "source": "https://movies.disney.com/avengers-infinity-war",
+    "cast": [
+      "Robert Downey Jr.",
+      "Chris Evans",
+      "Chris Hemsworth"
+    ],
+    "runtimeProvenance": "Kaggle; cross-checked with Disney",
+    "ragSourceId": "94"
+  }
+]
