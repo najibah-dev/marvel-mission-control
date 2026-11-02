@@ -209,3 +209,11 @@ One proportionate five-perspective review and recheck for the reported unchanged
 - FDE: added WATCH NEXT label and transition confirmation. TypeScript, 28 dashboard cases, watched-state regression, and next-recommendation regressions passed. Build/deployment receipt tracked separately.
 
 Rechecked updated handler, saved-state initialization, and explanation abort/reset path. Source behavior and helper regression verified; browser click verification remains unavailable. One review plus recheck completed, not five full rounds or independent agents.
+
+## Heading removal — 2026-11-01
+
+One proportionate five-perspective review/recheck. Removed the visible “Your viewing dashboard” heading as requested, retaining a screen-reader heading for document structure.
+
+PM: reduced visible heading clutter; Architect: presentation-only change, no state/API changes; BA: exact requested text removed; Data Analyst: metrics and wording unchanged; FDE: production build and deployment checked, updated overview image requested from hosting. Source recheck confirms the old heading is absent.
+
+Screenshot request is partially blocked: browser-control tools unavailable; hosting provides an overview screenshot only. Map and AI-panel screenshots cannot be claimed delivered. No synthetic screenshots or unrelated product changes added to bypass this limitation.
