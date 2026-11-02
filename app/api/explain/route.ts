@@ -1,7 +1,4 @@
-import { env } from 'cloudflare:workers';
-import { createExplanationHandler } from '@/lib/explanation-service';
-
-// Keep the credential server-side. The service can be tested without the provider.
-export const POST = createExplanationHandler(
-  () => (env as unknown as Record<string, string>).GROQ_API_KEY || process.env.GROQ_API_KEY
-);
+// This public route never loads provider credentials or makes outbound calls.
+export async function POST() {
+  return Response.json({error:'Film explanations are available in the dashboard.'}, {status:410, headers:{'Cache-Control':'no-store'}});
+}

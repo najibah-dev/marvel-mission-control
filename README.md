@@ -8,12 +8,12 @@ Use Node 24 LTS and npm:
 
 ```sh
 npm ci
-cp .env.example .env.local
-# Set GROQ_API_KEY locally; never commit it.
 npm run dev
 ```
 
-Open the printed local URL. The planner works without an API key; explanations fall back to editorial notes. The hosted site is owner-private.
+Open the printed local URL. No API key or account is required.
+
+[Use the live dashboard](https://marvel-mission-control-raya.ahmednajibah400.chatgpt.site/)
 
 ## Planning rules
 
@@ -23,7 +23,7 @@ Open the printed local URL. The planner works without an API key; explanations f
 - Infinity War is bundled with Endgame when neither has been watched; other map edges are soft context links. Watched films never use the remaining budget.
 - Selected films play in release order, not in-universe chronology. Suggested finish-by dates assume weekly time is spread evenly and films may be split across sessions.
 - Doomsday is a destination marker only: no invented runtime, watched checkbox, or catch-up budget reservation.
-- Marking the displayed film watched clears its AI response and advances to the first film of the recalculated route. Manually selected films are labeled “Explore this film”; “Back to my next recommendation” returns to automatic selection.
+- Marking the displayed film watched advances to the first film of the recalculated route. Manually selected films are labeled “Explore this film”; “Back to my next recommendation” returns to automatic selection.
 
 ## Data and sources
 
@@ -33,25 +33,23 @@ See [Doomsday editorial decisions and source notes](DOOMSDAY_PLAN.md). Catalog r
 
 `lib/catalog.json` is the reviewed app catalog. `scripts/build-doomsday-catalog.py /path/to/marvel_master.csv` reproduces its extension from the retained original 12 records. The parent project's older `build_catalog.py` creates the superseded Infinity War catalog; do not use it to overwrite this version.
 
-## Architecture and harness
+## How it works
 
-`catalog.json` + `timeline.mjs` → `planner.mjs` → dashboard/map/calendar. `timeline.mjs` restores saved pace/date and migrates watched IDs from the older planner; malformed storage falls back to defaults. Dates are computed as calendar dates, avoiding DST duration errors.
+`catalog.json` + `timeline.mjs` → `planner.mjs` → dashboard, story map and suggested schedule. The React/TypeScript interface uses the same calculated plan for its metrics and recommendations. Watched progress and preferences stay in local storage on your browser.
 
-`POST /api/explain` validates inputs, calculates the same route, retrieves the selected film and incoming editorial context notes, calls Groq, validates output structure/reference IDs, and returns real token usage. The prompt explicitly prohibits inventing prerequisites, sequence changes, or plot details. A valid response is still an AI draft, not proof of factual accuracy.
-
-The harness includes a 15-second timeout, 1,024 output-token cap, bounded cache, per-isolate request limiter, and non-AI fallback. Model: `openai/gpt-oss-20b`, low reasoning effort. This is a bounded workflow, not an autonomous agent. The limiter is not a durable global spend cap; retain private hosting until stronger public-use controls are in place.
+`timeline.mjs` works with calendar dates to avoid daylight-saving errors. It restores saved pace and deadline preferences and migrates watched IDs from the earlier planner. Curated film notes explain the recommendation, with visible source links and earlier story connections.
 
 ## Verification
 
 ```sh
 node scripts/test-planner.mjs
 node scripts/test-dashboard.mjs
-node scripts/test-explanations.mjs
+node scripts/test-public-release.mjs
 npx tsc --noEmit
 npm run build
 ```
 
-Planner tests cover 726 budget/history cases and compare optimal scores against exhaustive small fixtures. Timeline/dashboard tests cover 28 combinations, leap/DST dates, expired deadlines, progress migration, and next-film selection. Nine explanation/persistence groups simulate provider failures, output validation, caching, rate limiting, and existing preference handling. These tests do not measure factual accuracy or substitute for browser interaction checks.
+Planner tests cover 726 budget/history cases and compare optimal scores against exhaustive small fixtures. Timeline/dashboard tests cover 28 combinations, leap/DST dates, expired deadlines, progress migration, and next-film selection. Public-release checks verify the delivered explanation flow.
 
 ## Demo
 
@@ -59,6 +57,6 @@ Planner tests cover 726 budget/history cases and compare optimal scores against 
 2. Compare 1, 2, and 4 hours per week; inspect priority tradeoffs and finish-by dates.
 3. Follow the map to Doomsday, or explore a story topic.
 4. Mark the displayed film watched and see the next recommendation.
-5. Ask AI to explain the recommendation; inspect editorial sources and actual usage.
+5. Read “Why this film?” and inspect the sources and earlier story connections.
 
-[Review log](REVIEW_LOG.md) records the five AI-persona rounds and verification limits. [Power BI talking points](POWER_BI_TALKING_POINTS.md) cover the analytics-plus-actions narrative; this app is not integrated with Power BI.
+[Review log](REVIEW_LOG.md) records the five AI-persona rounds and verification limits. This app is not integrated with Power BI.

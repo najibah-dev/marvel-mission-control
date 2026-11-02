@@ -29,7 +29,7 @@ export function DashboardAnalysis({ topics, scenarios, hours, focus, onFocus, on
     <div className="analysis-card"><div className="analysis-heading"><div><span className="section-label">WHAT-IF COMPARISON</span><h2>What could more time unlock?</h2></div><Clock3 size={18}/></div>
       <p className="analysis-description">Compare weekly viewing time before your chosen deadline.</p>
       <div className="scenario-table-wrap"><table className="scenario-table"><caption className="sr-only">Watch plans at 1, 2, and 4 hours per week</caption><thead><tr><th>Per week</th><th>Films</th><th>Topics</th><th>Watch time</th><th><span className="sr-only">Apply budget</span></th></tr></thead><tbody>{scenarios.map(s=><tr key={s.hours} className={hours===s.hours?'current-scenario':''}><th scope="row">{s.hours}h/wk{hours===s.hours&&<span className="scenario-current">CURRENT</span>}</th><td>{s.films}</td><td>{s.topics}/6</td><td>{duration(s.minutes)}</td><td><button disabled={!ready||hours===s.hours} aria-label={`Use ${s.hours} hours per week`} onClick={()=>onBudget(s.hours)}><ArrowUpRight size={17}/></button></td></tr>)}</tbody></table></div>
-      <div className="analysis-callout"><span className="section-label">FROM INSIGHT TO ACTION</span><p>Try a weekly pace, explore the connections, then ask AI to explain a film’s editorial value.</p><small>Plans and metrics are calculated by code. AI runs only when you request an explanation.</small></div>
+      <div className="analysis-callout"><span className="section-label">FROM INSIGHT TO ACTION</span><p>Try a weekly pace, explore the connections, then explore why each film is in your plan.</p><small>Plans and metrics update with your pace, deadline and watched history.</small></div>
     </div>
   </section>;
 }
