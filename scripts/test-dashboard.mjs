@@ -30,3 +30,16 @@ const magic=topicBreakdown(movies,planRoute(movies,12,[]),[]).find(t=>t.id==='ma
 assert.equal(magic.planned,0);assert.equal(magic.omitted,1);
 assert(budgetScenarios(movies,movies.map(m=>m.id)).every(s=>s.minutes===0&&s.films===0));
 console.log(`PASS: ${cases} dashboard metric cases, scenario consistency, 12-hour baseline, and all-watched boundaries.`);
+
+// Regression: repeated checked events must not undo watched progress.
+const {setMovieWatched,restorePreferences}=await import('../lib/preferences.mjs');
+let progress=setMovieWatched([],'avengers',true);
+progress=setMovieWatched(progress,'avengers',true);
+assert.deepEqual(progress,['avengers']);
+assert(!planRoute(movies,12,progress).selected.some(m=>m.id==='avengers'));
+assert.deepEqual(restorePreferences(JSON.stringify({hours:12,watched:progress}),movies).watched,progress);
+progress=setMovieWatched(progress,'avengers',false);
+progress=setMovieWatched(progress,'avengers',false);
+assert.deepEqual(progress,[]);
+assert(planRoute(movies,12,progress).selected.some(m=>m.id==='avengers'));
+console.log('PASS: repeated check/uncheck, route exclusion/restoration, saved progress round-trip');

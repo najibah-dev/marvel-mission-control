@@ -185,3 +185,15 @@ Inspected final page/components/calculation helper, actual successful production
 | FDE | Pass for local build; private deployment tracked separately | TypeScript and production build pass; hosting receipt follows outside the deployment snapshot. |
 
 Actual dashboard rounds completed: **5**, sequential AI perspectives, not independent agents or human reviews. No changes were needed in rounds 3 or 5; round 4 improved handoff documentation. Ready for desktop user feedback, with mobile verification outstanding. Twelve curated titles, editorial weights, AI draft accuracy, and private-only access remain limitations.
+
+## Watched checkbox fix — 2026-11-01
+
+Small-fix review: one proportionate five-perspective review and recheck. User reports the detail checkbox does not update. Inspected all three watched controls, their inversion-only callback, saved-preference effects, and the Radix wrapper. Browser tooling unavailable: exact original click failure not reproduced; no claim of confirmed browser root cause.
+
+- PM: added immediate confirmation beside the detail checkbox, since dashboard changes are off-screen.
+- Architect: replaced the three watched controls with native checkbox inputs and explicit checked-state updates; repeated same-state events cannot reverse progress.
+- BA: check marks watched, uncheck removes it, controls wait for saved preferences to load; label clicks use native behavior.
+- Data Analyst: regression checks cover repeated events, route exclusion/restoration, and persistence round-trip; existing dashboard measures still derive from watched state.
+- FDE: TypeScript passed; production build/package and private deployment tracked by the delivery receipt. Actual browser click and reload remain unverified due unavailable browser tooling.
+
+Recheck: inspected all three updated call sites, no remaining toggle callbacks; native label/checkbox association retained. No unrelated UI changes. Automated regression passed. This addresses the fragile event handling and missing local feedback; user-visible resolution still needs a browser check.
