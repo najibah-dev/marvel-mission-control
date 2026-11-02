@@ -38,6 +38,7 @@ Raw Kaggle RAG plot documents are not sent to the model: they may contain errors
 ```sh
 node scripts/test-planner.mjs
 node scripts/test-explanations.mjs
+node scripts/test-dashboard.mjs
 npx tsc --noEmit
 npm run build
 ```
@@ -78,3 +79,11 @@ The API service is separated from its Cloudflare route so failures can be tested
 From this `site` directory, run `npm run dev` and open the printed local URL. The local server must stay running. The budget is remaining viewing time; already-watched titles do not consume it. Start at 2.5 hours to see Infinity War alone and six omitted context connections, then increase to 12 hours. Select a film to jump to its detail section. Expand Sources & earlier context to inspect the editorial notes.
 
 A private hosted link requires the owner's authorized sign-in and is not a public recruiter demo. Public access, complete MCU coverage, durable abuse limits, and a human-rated AI grounding evaluation remain future work.
+
+## Dashboard iteration — 2026-11-01
+
+Four live metrics summarize films, watch time, budget balance, and topic coverage. The story map remains central. Click a topic in Plan analysis to highlight related films without changing the route; apply an 8/12/20-hour scenario to change the actual budget. These calculations run locally without model calls.
+
+`lib/dashboard.mjs` derives topic counts and scenarios from the same planner. Its tests cover 28 budget/history cases, the default 12-hour result, and all-watched boundaries. See [Power BI talking points](POWER_BI_TALKING_POINTS.md) for a source-backed portfolio narrative. This app is not integrated with Power BI.
+
+Desktop interactions were verified; the updated mobile layout remains unverified after browser tooling became unavailable. Private deployment receipts are in the parent review log.

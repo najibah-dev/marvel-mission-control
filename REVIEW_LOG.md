@@ -112,3 +112,76 @@ Responsive check: 390 × 844 viewport, document body width 375 with a 390-wide v
 Actual rounds completed: **5** (round 1 was scope review, not a code revision). Reviews were performed sequentially by one AI assistant using five perspectives. No independent agents or humans were consulted.
 
 Ready for user feedback: **Yes for the reviewed local prototype.** Private hosting is tracked separately. Public sharing, wider MCU coverage, rigorous human-rated grounding evaluation, and durable provider-spend protection remain outside this iteration.
+
+
+# Dashboard iteration — 2026-11-01
+
+New requested scope: dashboard-style presentation with the story map retained, supporting an accurate discussion of BI and AI. Mode: sequential five-persona reviews by one assistant.
+
+## Dashboard round 1 — purpose and scope
+
+| Persona | Decision |
+|---|---|
+| PM | Preserve movie planning as the primary use case; add metrics and exploration, not decorative charts. |
+| Architect | Reuse the planner and API; derive dashboard measures locally with no new backend or model calls. |
+| BA | Define highlight as view-only; scenario selection changes the actual budget. |
+| Data Analyst | Topic counts overlap across films and are not a readiness score; state denominators and exclusions. |
+| FDE | Preserve existing private hosting and provide an evidence-backed portfolio explanation. |
+
+Acceptance: map retained; four measures update from the current plan; topic highlights leave the route unchanged; scenario buttons apply their budget; mobile layout and existing explanation flow remain usable; comparison avoids unsupported claims about Power BI.
+
+## Dashboard round 2 — working implementation
+
+Inspected: `dashboard-panels.tsx`, `dashboard.mjs`, updated page/CSS, Microsoft Copilot documentation.
+
+| Persona | Feedback / implemented response |
+|---|---|
+| PM | Replace the large promotional heading with a compact overview and section navigation; keep the map before detailed analytics. |
+| Architect | Scenario plans depend on watched history, not on map highlighting; memoize derivations and preserve the existing AI endpoint. |
+| BA | Label unavailable-budget time as “More time needed”; label selected highlights without calling them plan filters. |
+| Data Analyst | Show counts rather than invented percentages; topic rows state that a film can belong to several topics. |
+| FDE | Add source-backed talking points distinguishing this React/Groq demo from Power BI itself. |
+
+Round 2 check: TypeScript passed. New dashboard tests and browser interaction verification follow.
+
+## Dashboard round 3 — failures and evidence
+
+Inspected actual test output: 305 planner scenarios, 28 dashboard cases, and nine explanation/persistence groups passed. The latter simulate provider behavior and do not measure factual accuracy.
+
+| Persona | Review and result |
+|---|---|
+| PM | Default plan still supplies a useful five-film route; no scope expansion needed. |
+| Architect | API failure/cache/rate-limit regressions pass; dashboard interactions require no AI call. |
+| BA | Browser: applying 8h changes metrics to 3 films, 6h53m, 1h7m remaining, 3/6 topics. Selecting mystical-world focus leaves that plan unchanged. |
+| Data Analyst | Topic partitions and scenario consistency pass across 28 cases, including all-watched. Default 12h is 694 minutes, five films, five topics. |
+| FDE | Existing explanation service tests pass; new live-provider accuracy was not evaluated. |
+
+No additional defects found in these checks.
+
+## Dashboard round 4 — user experience and delivery
+
+Inspected desktop screenshot, accessibility tree, actual scenario and chart interactions, README, and talking-points document.
+
+| Persona | Review and response |
+|---|---|
+| PM | Compact overview and metrics visibly precede the retained map; analysis supports the watch decision. |
+| Architect | Reused components/planner/API; no additional services or secret exposure. |
+| BA | Clear highlight restores the map; restored 12h reproduces initial figures. Topic action is explicitly view-only. |
+| Data Analyst | UI explicitly states overlapping categories and avoids readiness percentages. Power BI comparison acknowledges existing Copilot capabilities. |
+| FDE | Added dashboard operation and test instructions to README. Production build passes. |
+
+External limitation D-01: mobile browser check timed out, then browser-control tool was unavailable after interruption. Responsive CSS inspected but new mobile behavior is **not verified**. No full accessibility audit. Desktop prototype is the verified delivery level; broader responsive acceptance remains open.
+
+## Dashboard round 5 — final recheck
+
+Inspected final page/components/calculation helper, actual successful production build, test outputs, and documentation. Only documentation changed after the build; application source was unchanged.
+
+| Persona | Verdict | Evidence / limitation |
+|---|---|---|
+| PM | Pass for desktop prototype | Requested dashboard with retained map and usable scenario actions observed. |
+| Architect | Pass | Deterministic calculations, isolated highlight state, existing explanation service regression checks. |
+| BA | Pass for desktop; responsive criterion not verified | Apply-budget and view-only highlight observed; mobile check interrupted. |
+| Data Analyst | Pass | Reproducible metric tests and explicit category limitations; no AI quality claims. |
+| FDE | Pass for local build; private deployment tracked separately | TypeScript and production build pass; hosting receipt follows outside the deployment snapshot. |
+
+Actual dashboard rounds completed: **5**, sequential AI perspectives, not independent agents or human reviews. No changes were needed in rounds 3 or 5; round 4 improved handoff documentation. Ready for desktop user feedback, with mobile verification outstanding. Twelve curated titles, editorial weights, AI draft accuracy, and private-only access remain limitations.
