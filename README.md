@@ -50,11 +50,3 @@ npm run build
 ```
 
 Planner tests cover 726 budget/history cases and compare optimal scores against exhaustive small fixtures. Timeline/dashboard tests cover 28 combinations, leap/DST dates, expired deadlines, progress migration, and next-film selection. Public-release checks verify the delivered explanation flow.
-
-## Demo
-
-1. Show Doomsday and the default U.S. release date.
-2. Compare 1, 2, and 4 hours per week; inspect priority tradeoffs and finish-by dates.
-3. Follow the map to Doomsday, or explore a story topic.
-4. Mark the displayed film watched and see the next recommendation.
-5. Read “Why this film?” and inspect the sources and earlier story connections.
