@@ -217,3 +217,50 @@ One proportionate five-perspective review/recheck. Removed the visible “Your v
 PM: reduced visible heading clutter; Architect: presentation-only change, no state/API changes; BA: exact requested text removed; Data Analyst: metrics and wording unchanged; FDE: production build and deployment checked, updated overview image requested from hosting. Source recheck confirms the old heading is absent.
 
 Screenshot request is partially blocked: browser-control tools unavailable; hosting provides an overview screenshot only. Map and AI-panel screenshots cannot be claimed delivered. No synthetic screenshots or unrelated product changes added to bypass this limitation.
+
+## Heading wording — 2026-11-01
+One proportionate five-perspective review/recheck: PM—uses requested personal wording; Architect—text-only change; BA—visible heading now “Your Marvel Journey”; Data Analyst—no measures changed; FDE—source text inspected, production build/deployment to be verified. Retained semantic h1 and established styling. No browser visual verification available.
+
+# Doomsday journey — 2026-11-02
+## Round 1 — scope / sequential five-persona review
+PM: prioritize a short catch-up journey over completion of every film. Architect: deterministic planner with deadline-derived budget; destination has no invented runtime. BA: hours/week, target date, watched history, explicit priority tiers and release-order schedule. Data Analyst: official US date 2026-12-18 verified on Disney; recommendations remain editorial, not confirmed prerequisites. FDE: retain private hosting, sources, Groq fallback and map; browser automation currently unavailable.
+Acceptance: visible Your Marvel Journey heading; Doomsday map destination; weekly pace and target date determine available time; high-priority films precede optional films in selection; watched films excluded; next recommendation updates; expired deadline and empty plan handled. The catalog expands from 12 to 20 films; movie-only scope excludes TV. Priority and timeline assumptions must be visible.
+
+## Doomsday round 2 — working implementation
+Inspected new catalog generator, planner, timeline, page and explanation payload.
+- PM: retained map and added a visible Doomsday banner plus endpoint; replaced equal-feeling films with three explicit priorities.
+- Architect: bounded integer-minute grouped knapsack replaces exponential enumeration; cap solver capacity at unwatched catalog runtime. No model call for planning.
+- BA: target day excluded, custom dates supported, weekly allowance explicit; Doomsday has no fabricated runtime. Endgame includes Infinity War setup if needed.
+- Data Analyst: high priority uses editorial weights, not fabricated certainty. Corrected Thunderbolts to official 126 minutes. X-Men source synopsis inconsistency noted and not copied.
+- FDE: maintained original watched IDs, migrated progress, and corrected API maximum watched IDs from 12 to catalog length. TypeScript passed.
+
+## Doomsday round 3 — failures and evidence
+Actual checks passed: 726 planner budget/history cases; exhaustive score comparisons on small independent fixtures; 28 timeline/dashboard combinations; nine explanation/persistence groups. Additional assertions cover ended dates, invalid dates, zero pace, leap day, DST boundary, progress migration, repeated checkbox events, next-film advance, all-watched state, and full 20-film API history.
+- PM: short plans omit lower-value context rather than requiring completion.
+- Architect: max-budget input cannot grow DP beyond catalog runtime; existing provider timeout/fallback tests pass.
+- BA: Endgame prerequisite rule, catch-up-only time and schedule-before-deadline assertions pass.
+- Data Analyst: runtime arithmetic and topic partitions reproduce correctly; optimal-score fixtures passed. Tests do not prove AI prose accuracy.
+- FDE: no live provider call or browser interaction claimed; browser-control tool is unavailable. Source/API regression coverage completed.
+No unresolved calculation defect found. Browser and mobile interaction verification remain external limitations.
+
+## Doomsday round 4 — user experience and delivery
+Inspected served local HTML, controls, map coordinates, README, source-note document, and one actual Groq response.
+- PM: gives a visible destination even before horizontally scrolling; automatic next recommendation is separate from manual exploration.
+- Architect: film list, metrics, API context and suggested dates share one plan; source reload and migration inspected.
+- BA: source and served HTML include heading, weekly controls, dates, Doomsday endpoint and explanation section. Default route reviewed for content relevance.
+- Data Analyst: raised Endgame's editorial weight from 9 to 12 to reflect its stronger documented story link; this is an explicit judgment, not a measured importance score. Recheck required.
+- FDE: preview returned HTTP success; TypeScript and initial production build passed. Live Fantastic Four request returned AI mode, matching source ID, 470 input and 120 output tokens. One sampled response is not an accuracy evaluation. Browser automation and mobile visual inspection remain unavailable.
+Documentation rewritten around deadline/weekly semantics, privacy, source limitations and the new demo.
+
+## Doomsday round 5 — final recheck
+Re-ran planner, timeline/dashboard, explanation/persistence and TypeScript checks after the Endgame weight change. All passed. Added an explicit default-plan assertion: on 2026-11-02 at 2h/week before 2026-12-18, selection contains Infinity War + Endgame, Brave New World, Thunderbolts and Fantastic Four, totaling 689 of 788 available minutes; optional origins are excluded. Final production build passed after the application change.
+
+| Persona | Verdict | Evidence and limits |
+|---|---|---|
+| Product Manager | Pass for private prototype | Requested heading, visible Doomsday destination, meaningful priorities and explicit omissions implemented. |
+| Solution Architect | Pass | Shared deterministic plan, bounded optimizer, AI reset/abort, provider fallback and full-history validation verified in code/tests. |
+| Business Analyst | Pass for calculation/served-page criteria; interactive checks not verified | Weekly time/deadline, progress exclusion, release order, empty dates and advancement tested; live browser click unavailable. |
+| Data Analyst | Pass with declared editorial assumptions | Provenance documented, source runtime conflict corrected, objective checked against exhaustive fixtures; no guaranteed plot-readiness or AI accuracy claim. |
+| FDE | Build/API verified; browser/mobile not verified | Local page served successfully; live Groq sample succeeded; tests/build passed. Native deployment result will be recorded in the parent receipt. |
+
+Actual rounds completed: **5**, sequential AI perspectives, not separate agents or human reviews. No remaining known calculation blocker. Delivery is a private prototype with unverified browser/mobile interaction, a 20-film movie-only catalog, manually maintained release date, editorial priorities, and no exhaustive factual-quality evaluation. Public sharing is unchanged. Ready for user feedback on this declared basis; not a claim that visual QA has passed.

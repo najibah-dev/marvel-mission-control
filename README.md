@@ -1,89 +1,64 @@
-# Marvel Mission Control
+# Marvel Mission Control — Your Marvel Journey
 
-A beginner-friendly, interactive viewing map for a curated route to **Avengers: Infinity War**. It uses 12 movie records, explicit editorial connection notes, a deterministic budget planner, and Groq explanation drafts based on retrieved editorial notes.
+A movie-only catch-up planner leading to **Avengers: Doomsday**, using 20 curated films from Raya's Kaggle dataset. Set hours per week and a finish-before date; the app chooses background films by editorial priority, excludes watched titles, and schedules the selected films in release order. It does not claim every film is integral or that the shortlist guarantees readiness.
 
 ## Run
 
-Use Node 24 LTS and npm (the explanation tests use native TypeScript support).
+Use Node 24 LTS and npm:
 
 ```sh
 npm ci
 cp .env.example .env.local
-# Set GROQ_API_KEY in .env.local; never commit it.
+# Set GROQ_API_KEY locally; never commit it.
 npm run dev
 ```
 
-Open the local URL printed in the terminal. Without a key, movie explanations use clearly labeled editorial notes. The planner always works without AI.
+Open the printed local URL. The planner works without an API key; explanations fall back to editorial notes. The hosted site is owner-private.
 
-## Architecture
+## Planning rules
 
-`lib/catalog.json` → `lib/planner.mjs` → `app/page.tsx`
+- Default deadline: December 18, 2026, the official U.S. release date checked November 2, 2026. Users can choose a different cinema date. Release information is not refreshed automatically.
+- Available minutes = floor(days before target × hours per week × 60 / 7). The target day itself is excluded. Past deadlines and zero pace produce no catch-up plan.
+- High priority = 1,000 × editorial weight; useful context = 10 × weight; optional origin/background = 1. A grouped knapsack solver maximizes the total; ties use less time. Scores are ranking rules, not probabilities, measured importance, or readiness percentages.
+- Infinity War is bundled with Endgame when neither has been watched; other map edges are soft context links. Watched films never use the remaining budget.
+- Selected films play in release order, not in-universe chronology. Suggested finish-by dates assume weekly time is spread evenly and films may be split across sessions.
+- Doomsday is a destination marker only: no invented runtime, watched checkbox, or catch-up budget reservation.
+- Marking the displayed film watched clears its AI response and advances to the first film of the recalculated route. Manually selected films are labeled “Explore this film”; “Back to my next recommendation” returns to automatic selection.
 
-The browser tracks watched movies and the time budget in local storage on this device. No account or shared user database is used. The planner enumerates at most 2,048 subsets of 11 background movies. It reserves the destination runtime unless watched, maximizes new topic coverage × 20 plus editorial weights and connected pairs × 2, breaks ties using less time, and returns release order. Connections are soft context links, not mandatory dependencies. Skipped context is surfaced rather than hidden.
+## Data and sources
 
-`POST /api/explain` → validate request → calculate plan → retrieve selected movie and incoming connection notes → call Groq → validate response structure/source IDs → return explanation and real usage.
+[Original Kaggle dataset](https://www.kaggle.com/datasets/vanshkumar007/mcu-and-marvel-media-complete-dataset). TMDB poster URLs come from supplied metadata. This is an unofficial fan learning project, not affiliated with Marvel/Disney/TMDB. Permissions for public redistribution remain to be reviewed before broader release.
 
-This is a **bounded workflow**, not an autonomous agent. The harness includes input validation, a 15-second timeout, an output limit, a small in-memory cache, response validation, and a labeled non-AI fallback. Groq currently serves `openai/gpt-oss-20b` with strict JSON output and low reasoning effort. Selection status is prepended by code rather than delegated to the model. A per-isolate rate limiter reduces accidental repeated calls; it is not a global spending cap. Keep the hosted demo private until durable abuse protection and provider spend controls are configured.
+See [Doomsday editorial decisions and source notes](DOOMSDAY_PLAN.md). Catalog records distinguish official runtime checks from unverified Kaggle runtimes. Thunderbolts* uses Disney's 126 minutes instead of the dataset's 127. Priority notes are written editorially; raw Kaggle plot text is not sent to the model. Movies only: Loki and other television stories are outside the current shortlist.
 
-## Data and attribution
+`lib/catalog.json` is the reviewed app catalog. `scripts/build-doomsday-catalog.py /path/to/marvel_master.csv` reproduces its extension from the retained original 12 records. The parent project's older `build_catalog.py` creates the superseded Infinity War catalog; do not use it to overwrite this version.
 
-Source catalog: [Kaggle MCU and Marvel media dataset](https://www.kaggle.com/datasets/vanshkumar007/mcu-and-marvel-media-complete-dataset). Movie poster URLs come from the supplied TMDB fields; images belong to their respective owners. This is an unofficial fan learning project, not affiliated with Marvel, Disney, or TMDB. Source redistribution and image reuse permissions should be reviewed before public distribution.
+## Architecture and harness
 
-The parent `scripts/build_catalog.py` records the selected titles and editorial notes and generates the app catalog. Eight Disney movie pages support corresponding runtime/setting checks. Other entries preserve the source runtimes with their provenance explicitly labeled; their links are title references rather than claims of independent runtime verification. Release order and relationship weights are editorial. The graph is not a complete chronology and does not claim an official essential viewing route.
+`catalog.json` + `timeline.mjs` → `planner.mjs` → dashboard/map/calendar. `timeline.mjs` restores saved pace/date and migrates watched IDs from the older planner; malformed storage falls back to defaults. Dates are computed as calendar dates, avoiding DST duration errors.
 
-Raw Kaggle RAG plot documents are not sent to the model: they may contain errors or spoilers. The smaller curated notes are retrieved instead. The app minimizes plot details but makes no guarantee of zero spoilers; source pages can contain spoilers. Output validation checks shape and source IDs, not factual entailment.
+`POST /api/explain` validates inputs, calculates the same route, retrieves the selected film and incoming editorial context notes, calls Groq, validates output structure/reference IDs, and returns real token usage. The prompt explicitly prohibits inventing prerequisites, sequence changes, or plot details. A valid response is still an AI draft, not proof of factual accuracy.
+
+The harness includes a 15-second timeout, 1,024 output-token cap, bounded cache, per-isolate request limiter, and non-AI fallback. Model: `openai/gpt-oss-20b`, low reasoning effort. This is a bounded workflow, not an autonomous agent. The limiter is not a durable global spend cap; retain private hosting until stronger public-use controls are in place.
 
 ## Verification
 
 ```sh
 node scripts/test-planner.mjs
-node scripts/test-explanations.mjs
 node scripts/test-dashboard.mjs
+node scripts/test-explanations.mjs
 npx tsc --noEmit
 npm run build
 ```
 
-The planner test covers 305 budget/history combinations, exact destination-runtime boundaries, unknown IDs, invalid budgets, unique catalog IDs, and forward-only connections. The read-only WebMCP tool `get_marvel_watch_plan` exposes the same visible plan to compatible browsers without changing state or making AI calls.
+Planner tests cover 726 budget/history cases and compare optimal scores against exhaustive small fixtures. Timeline/dashboard tests cover 28 combinations, leap/DST dates, expired deadlines, progress migration, and next-film selection. Nine explanation/persistence groups simulate provider failures, output validation, caching, rate limiting, and existing preference handling. These tests do not measure factual accuracy or substitute for browser interaction checks.
 
-## Demo sequence
+## Demo
 
-1. Start at 12 hours. Inspect the recommended route and its missing story background.
-2. Move to 8 hours, then 20. Explain the tradeoff rather than claiming a readiness percentage.
-3. Mark an included movie watched: its runtime leaves the remaining plan and frees time for another.
-4. Select a movie and request its AI explanation. Open Under the hood to inspect actual tokens and latency.
-5. Set the budget below the destination runtime to demonstrate the infeasible-plan state.
+1. Show Doomsday and the default U.S. release date.
+2. Compare 1, 2, and 4 hours per week; inspect priority tradeoffs and finish-by dates.
+3. Follow the map to Doomsday, or explore a story topic.
+4. Mark the displayed film watched and see the next recommendation.
+5. Ask AI to explain the recommendation; inspect editorial sources and actual usage.
 
-## Next experiment
-
-Compare passing all curated notes with retrieving only the selected movie and its direct context notes. Measure actual tokens, latency, and human-rated grounding on the same requests. No savings or accuracy improvements are claimed before this experiment is run.
-
-## Previous local verification — 2026-09-23
-
-- Production build and TypeScript checks passed.
-- 305 planner scenarios passed.
-- Live Groq calls returned explanations and token usage; invalid movie IDs returned HTTP 400.
-- Browser checks covered zero/max budgets, watched updates, persistence after reload, Map/List views, and the explanation button. Phone layout checked at 390 × 844.
-- Hosting remains pending: the installed Sites helper files became unavailable during the session. This is a local demo, not a published link.
-
-AI text remains a draft: the application verifies response structure and reference IDs, but does not automatically prove every sentence follows from its source notes.
-
-
-## Five-role review — 2026-10-31
-
-All five review rounds are recorded in [the review log](REVIEW_LOG.md), including findings, changes, and verification. The review preserves the 12-film scope. Fixes include destination context-gap counting, validated saved preferences, direct navigation to film details, clearer route labels, and visible editorial notes alongside AI drafts.
-
-The API service is separated from its Cloudflare route so failures can be tested without live model calls. `test-explanations.mjs` covers nine groups of request validation, output validation, provider fallback, cache, rate-limit, and saved-state checks. These checks do not establish factual accuracy of AI prose.
-
-### Demo and restart
-
-From this `site` directory, run `npm run dev` and open the printed local URL. The local server must stay running. The budget is remaining viewing time; already-watched titles do not consume it. Start at 2.5 hours to see Infinity War alone and six omitted context connections, then increase to 12 hours. Select a film to jump to its detail section. Expand Sources & earlier context to inspect the editorial notes.
-
-A private hosted link requires the owner's authorized sign-in and is not a public recruiter demo. Public access, complete MCU coverage, durable abuse limits, and a human-rated AI grounding evaluation remain future work.
-
-## Dashboard iteration — 2026-11-01
-
-Four live metrics summarize films, watch time, budget balance, and topic coverage. The story map remains central. Click a topic in Plan analysis to highlight related films without changing the route; apply an 8/12/20-hour scenario to change the actual budget. These calculations run locally without model calls.
-
-`lib/dashboard.mjs` derives topic counts and scenarios from the same planner. Its tests cover 28 budget/history cases, the default 12-hour result, and all-watched boundaries. See [Power BI talking points](POWER_BI_TALKING_POINTS.md) for a source-backed portfolio narrative. This app is not integrated with Power BI.
-
-Desktop interactions were verified; the updated mobile layout remains unverified after browser tooling became unavailable. Private deployment receipts are in the parent review log.
+[Review log](REVIEW_LOG.md) records the five AI-persona rounds and verification limits. [Power BI talking points](POWER_BI_TALKING_POINTS.md) cover the analytics-plus-actions narrative; this app is not integrated with Power BI.

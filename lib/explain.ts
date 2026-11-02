@@ -3,16 +3,16 @@ import { CONNECTIONS, planRoute } from './planner.mjs';
 export function prepareExplanation(input: unknown) {
  if (!input || typeof input !== 'object') throw new Error('Invalid request');
  const {movieId,hours,watched}=input as {movieId:unknown;hours:unknown;watched:unknown};
- if(typeof movieId!=='string'||typeof hours!=='number'||!Array.isArray(watched)||watched.length>12||watched.some(id=>typeof id!=='string')||new Set(watched).size!==watched.length)throw new Error('Invalid plan');
+ if(typeof movieId!=='string'||typeof hours!=='number'||!Array.isArray(watched)||watched.length>movies.length||watched.some(id=>typeof id!=='string')||new Set(watched).size!==watched.length)throw new Error('Invalid plan');
  const movie=movies.find(m=>m.id===movieId);
  if(!movie)throw new Error('Unknown movie');
  const plan=planRoute(movies,hours,watched);
  const parentIds=CONNECTIONS.filter(([,to]:string[])=>to===movieId).map(([from]:string[])=>from);
  const parents=movies.filter(m=>parentIds.includes(m.id));
  const retrieved=[movie,...parents];
- const context={selectedMovieId:movie.id,watchOrder:plan.selected.map((m:typeof movie)=>m.id).concat(plan.fits&&!watched.includes('infinity-war')?['infinity-war']:[]),destination:'Avengers: Infinity War',budgetMinutes:plan.budget,plannedMinutes:plan.used,
-  status:watched.includes(movieId)?'already watched':plan.selected.some((m:typeof movie)=>m.id===movieId)||(movieId==='infinity-war'&&plan.fits)?'included':'outside budget',
-  destinationFits:plan.fits,
+ const context={selectedMovieId:movie.id,watchOrder:plan.selected.map((m:typeof movie)=>m.id),destination:'Avengers: Doomsday',priority:movie.priority,priorityBasis:'Editorial context recommendation, not an official prerequisite',budgetMinutes:plan.budget,plannedMinutes:plan.used,
+  status:watched.includes(movieId)?'already watched':plan.selected.some((m:typeof movie)=>m.id===movieId)?'included':'outside budget',
+  hasCatchUpPlan:plan.selected.length>0,
   notes:retrieved.map(m=>({id:m.id,title:m.title,runtime:m.runtime,note:m.why,watched:watched.includes(m.id)}))};
  const statusNote=context.status==='already watched'?'You have already watched this movie.':context.status==='included'?'This movie is included in your current plan.':'This movie is not selected in your current plan.';
  return {movie,context,statusNote,retrievedIds:retrieved.map(m=>m.id),messages:[

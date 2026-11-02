@@ -1,55 +1,42 @@
 import assert from 'node:assert/strict';
 import movies from '../lib/catalog.json' with {type:'json'};
 import {planRoute} from '../lib/planner.mjs';
-import {topicBreakdown,budgetScenarios} from '../lib/dashboard.mjs';
-
+import {topicBreakdown,nextRecommendation} from '../lib/dashboard.mjs';
+import {setMovieWatched} from '../lib/preferences.mjs';
+import {timeUntilRelease,scheduleRoute,restoreJourney} from '../lib/timeline.mjs';
 let cases=0;
-for(const watched of [[],['avengers'],['infinity-war'],movies.map(m=>m.id)]){
-  for(const hours of [0,2,2.5,8,12,20,30]){
-    const plan=planRoute(movies,hours,watched);
-    const topics=topicBreakdown(movies,plan,watched);
-    assert.equal(topics.length,6);
-    for(const row of topics){
-      assert.equal(row.watched+row.planned+row.omitted,row.total);
-      assert(row.omitted>=0);
-      assert.equal(row.watched,movies.filter(m=>watched.includes(m.id)&&m.topics.includes(row.id)).length);
-    }
-    assert.equal(topics.filter(t=>t.watched+t.planned>0).length,plan.covered.length);
-    cases++;
-  }
-  for(const s of budgetScenarios(movies,watched)){
-    const plan=planRoute(movies,s.hours,watched);
-    assert.equal(s.minutes,plan.used);
-    assert.equal(s.films,plan.selected.length+Number(plan.fits&&!plan.destinationWatched));
-    assert(s.minutes<=s.hours*60);
-  }
+for(const history of [[],['avengers'],['infinity-war'],movies.map(m=>m.id)])for(const pace of [0,.5,1,2,4,10,20]){
+ const t=timeUntilRelease('2026-11-02','2026-12-18',pace),p=planRoute(movies,t.availableMinutes/60,history);
+ const topics=topicBreakdown(movies,p,history);
+ for(const row of topics){assert.equal(row.watched+row.planned+row.omitted,row.total);assert(row.omitted>=0);}
+ assert.equal(topics.filter(t=>t.watched+t.planned>0).length,p.covered.length);
+ const schedule=scheduleRoute(p.selected,'2026-11-02',pace);
+ assert.equal(schedule.length,p.selected.length);
+ assert(schedule.every(row=>row.finishBy>='2026-11-02'&&row.finishBy<'2026-12-18'));
+ assert(p.used<=t.availableMinutes);cases++;
 }
-const twelve=budgetScenarios(movies,[]).find(s=>s.hours===12);
-assert.deepEqual(twelve,{hours:12,minutes:694,films:5,topics:5,gaps:8});
-const magic=topicBreakdown(movies,planRoute(movies,12,[]),[]).find(t=>t.id==='magic');
-assert.equal(magic.planned,0);assert.equal(magic.omitted,1);
-assert(budgetScenarios(movies,movies.map(m=>m.id)).every(s=>s.minutes===0&&s.films===0));
-console.log(`PASS: ${cases} dashboard metric cases, scenario consistency, 12-hour baseline, and all-watched boundaries.`);
+assert.equal(timeUntilRelease('2026-11-02','2026-12-18',2).availableMinutes,788);
+assert.equal(timeUntilRelease('2026-11-02','2026-12-18',2).days,46);
+assert.equal(timeUntilRelease('2026-12-18','2026-12-18',2).availableMinutes,0);
+assert.equal(timeUntilRelease('2026-12-19','2026-12-18',2).ended,true);
+assert.equal(timeUntilRelease('2028-02-28','2028-03-01',7).days,2);
+assert.equal(timeUntilRelease('2026-11-01','2026-11-02',7).days,1); // DST boundary uses dates, not elapsed local hours.
+for(const date of ['','2026-02-30','not a date'])assert.throws(()=>timeUntilRelease('2026-11-02',date,2));
+for(const pace of [-1,21,NaN,Infinity])assert.throws(()=>timeUntilRelease('2026-11-02','2026-12-18',pace));
+const first=nextRecommendation(movies,788/60,[]);
+const watched=setMovieWatched(setMovieWatched([],first.id,true),first.id,true);
+assert.deepEqual(watched,[first.id]);assert.notEqual(nextRecommendation(movies,788/60,watched)?.id,first.id);
+assert.equal(nextRecommendation(movies,60,movies.map(m=>m.id)),null);
+assert.deepEqual(setMovieWatched(setMovieWatched(watched,first.id,false),first.id,false),[]);
+const saved=restoreJourney(null,JSON.stringify({hours:12,watched:['avengers','bad','avengers']}),movies);
+assert.deepEqual(saved,{weeklyHours:2,targetDate:'2026-12-18',watched:['avengers']});
+assert.equal(restoreJourney(JSON.stringify({weeklyHours:4,targetDate:'2026-12-16'}),null,movies).targetDate,'2026-12-16');
+assert.equal(restoreJourney(JSON.stringify({weeklyHours:99,targetDate:'bad'}),null,movies).weeklyHours,2);
+assert.throws(()=>restoreJourney('{bad',null,movies));
+console.log(`PASS: ${cases} timeline/dashboard cases, deadline and DST/leap boundaries, saved-progress migration, recommendation advance and repeated checkbox state.`);
 
-// Regression: repeated checked events must not undo watched progress.
-const {setMovieWatched,restorePreferences}=await import('../lib/preferences.mjs');
-let progress=setMovieWatched([],'avengers',true);
-progress=setMovieWatched(progress,'avengers',true);
-assert.deepEqual(progress,['avengers']);
-assert(!planRoute(movies,12,progress).selected.some(m=>m.id==='avengers'));
-assert.deepEqual(restorePreferences(JSON.stringify({hours:12,watched:progress}),movies).watched,progress);
-progress=setMovieWatched(progress,'avengers',false);
-progress=setMovieWatched(progress,'avengers',false);
-assert.deepEqual(progress,[]);
-assert(planRoute(movies,12,progress).selected.some(m=>m.id==='avengers'));
-console.log('PASS: repeated check/uncheck, route exclusion/restoration, saved progress round-trip');
-
-const {nextRecommendation}=await import('../lib/dashboard.mjs');
-assert.equal(nextRecommendation(movies,12,[]).id,'avengers');
-const afterWatching=nextRecommendation(movies,12,['avengers']);
-assert(afterWatching && afterWatching.id!=='avengers');
-assert.equal(afterWatching.id,planRoute(movies,12,['avengers']).selected[0].id);
-assert.equal(nextRecommendation(movies,2.5,[]).id,'infinity-war');
-assert.equal(nextRecommendation(movies,0,[]),null);
-assert.equal(nextRecommendation(movies,30,movies.map(m=>m.id)),null);
-console.log(`PASS: next recommendation advances Avengers -> ${afterWatching.title}; destination-only and empty-plan boundaries`);
+const defaultPlan=planRoute(movies,788/60,[]);
+assert(defaultPlan.selected.some(m=>m.id==='endgame'));
+assert(defaultPlan.selected.some(m=>m.id==='infinity-war'));
+assert(!defaultPlan.selected.some(m=>m.priority==='optional'));
+console.log('PASS: default two-hour weekly route prioritizes Endgame with its setup over optional origins');

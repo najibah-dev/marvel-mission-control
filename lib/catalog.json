@@ -1,5 +1,32 @@
 [
   {
+    "id": "x-men",
+    "sourceId": "20",
+    "ragSourceId": "20",
+    "title": "X-Men",
+    "year": 2000,
+    "release": "2000-07-14",
+    "runtime": 104,
+    "poster": "https://image.tmdb.org/t/p/w500/vF02RqXLgtmpJM5CRLSuvN3fVHi.jpg",
+    "topics": [
+      "mutants"
+    ],
+    "priority": "high",
+    "weight": 5,
+    "intro": "An introduction to the original X-Men ensemble.",
+    "why": "Prioritized as an accessible introduction to the mutant team represented in official Doomsday casting. This does not establish which timeline the new film uses.",
+    "gap": "this film\u2019s character or world background",
+    "source": "https://www.20thcenturystudios.com/movies/x-men",
+    "cast": [
+      "Patrick Stewart",
+      "Hugh Jackman",
+      "Ian McKellen"
+    ],
+    "runtimeProvenance": "Official studio runtime checked 2026-11-02",
+    "x": 90,
+    "y": 100
+  },
+  {
     "id": "iron-man",
     "sourceId": "37",
     "title": "Iron Man",
@@ -7,14 +34,14 @@
     "release": "2008-05-02",
     "runtime": 126,
     "poster": "https://image.tmdb.org/t/p/w500/78lPtwv72eTNqFW9COBYI0dWDJa.jpg",
-    "weight": 3,
+    "weight": 1,
     "topics": [
       "avengers"
     ],
     "x": 90,
-    "y": 115,
+    "y": 280,
     "intro": "Meet Tony Stark, the inventor behind the armor.",
-    "why": "A useful starting point for the human side of the Avengers. Adds Tony\u2019s origin, rather than a new story world.",
+    "why": "Optional Tony Stark origin. A shared performer is not evidence that Tony Stark and Doctor Doom are the same character.",
     "gap": "Tony Stark\u2019s origin and motivation.",
     "source": "https://www.imdb.com/title/tt0371746/",
     "cast": [
@@ -23,7 +50,8 @@
       "Jeff Bridges"
     ],
     "runtimeProvenance": "Kaggle runtime; external title reference",
-    "ragSourceId": "37"
+    "ragSourceId": "37",
+    "priority": "optional"
   },
   {
     "id": "thor",
@@ -33,14 +61,14 @@
     "release": "2011-05-06",
     "runtime": 115,
     "poster": "https://image.tmdb.org/t/p/w500/prSfAi1xGrhLQNxVSUFh61xQ4Qy.jpg",
-    "weight": 3,
+    "weight": 1,
     "topics": [
-      "asgard"
+      "avengers"
     ],
     "x": 90,
-    "y": 335,
+    "y": 460,
     "intro": "Meet Thor and the world of Asgard.",
-    "why": "Introduces the family and setting behind Thor\u2019s later adventures. A gentler entry into the Asgard branch.",
+    "why": "Optional early Thor background; Ragnarok is our more recent Thor refresher.",
     "gap": "Thor\u2019s family background and Asgard.",
     "source": "https://www.imdb.com/title/tt0800369/",
     "cast": [
@@ -49,7 +77,8 @@
       "Tom Hiddleston"
     ],
     "runtimeProvenance": "Kaggle runtime; external title reference",
-    "ragSourceId": "44"
+    "ragSourceId": "44",
+    "priority": "optional"
   },
   {
     "id": "first-avenger",
@@ -59,14 +88,14 @@
     "release": "2011-07-22",
     "runtime": 124,
     "poster": "https://image.tmdb.org/t/p/w500/vSNxAJTlD0r02V9sPYpOjqDZXUK.jpg",
-    "weight": 3,
+    "weight": 1,
     "topics": [
       "avengers"
     ],
     "x": 90,
-    "y": 555,
+    "y": 640,
     "intro": "Meet Steve Rogers before he joins the Avengers.",
-    "why": "Provides Steve\u2019s origin and values. Helpful character background before the team stories.",
+    "why": "Optional Steve Rogers origin for viewers who want deeper background.",
     "gap": "Steve Rogers\u2019s origin and values.",
     "source": "https://en.wikipedia.org/wiki/Captain_America:_The_First_Avenger",
     "cast": [
@@ -75,7 +104,8 @@
       "Sebastian Stan"
     ],
     "runtimeProvenance": "Kaggle runtime; external title reference",
-    "ragSourceId": "46"
+    "ragSourceId": "46",
+    "priority": "optional"
   },
   {
     "id": "avengers",
@@ -85,15 +115,14 @@
     "release": "2012-05-04",
     "runtime": 143,
     "poster": "https://image.tmdb.org/t/p/w500/RYMX2wcKCBAr24UyPD7xwmjaTn.jpg",
-    "weight": 9,
+    "weight": 7,
     "topics": [
-      "avengers",
-      "asgard"
+      "avengers"
     ],
-    "x": 305,
-    "y": 115,
+    "x": 90,
+    "y": 820,
     "intro": "Earth\u2019s heroes learn to work as a team.",
-    "why": "Our strongest early team introduction: it brings the core heroes together and connects Earth with a larger world.",
+    "why": "Useful first team introduction for a Marvel beginner. More recent ensemble context takes priority when time is tight.",
     "gap": "The original Avengers team dynamic.",
     "source": "https://www.imdb.com/title/tt0848228/",
     "cast": [
@@ -102,7 +131,8 @@
       "Mark Ruffalo"
     ],
     "runtimeProvenance": "Kaggle runtime; external title reference",
-    "ragSourceId": "51"
+    "ragSourceId": "51",
+    "priority": "useful"
   },
   {
     "id": "winter-soldier",
@@ -112,15 +142,15 @@
     "release": "2014-04-04",
     "runtime": 136,
     "poster": "https://image.tmdb.org/t/p/w500/tVFRpFw3xTedgPGqxW0AOI8Qhh0.jpg",
-    "weight": 4,
+    "weight": 1,
     "topics": [
       "avengers",
-      "division"
+      "newguard"
     ],
-    "x": 305,
-    "y": 335,
+    "x": 330,
+    "y": 100,
     "intro": "A grounded espionage story with Steve and Natasha.",
-    "why": "Adds context for Steve\u2019s relationships and the Earth-side political tensions explored in Civil War.",
+    "why": "Optional earlier background for Sam Wilson and Bucky Barnes; newer team films provide more current context.",
     "gap": "Steve\u2019s relationships and the espionage side of the MCU.",
     "source": "https://movies.disney.com/captain-america-the-winter-soldier",
     "cast": [
@@ -129,7 +159,8 @@
       "Scarlett Johansson"
     ],
     "runtimeProvenance": "Kaggle; cross-checked with Disney",
-    "ragSourceId": "57"
+    "ragSourceId": "57",
+    "priority": "optional"
   },
   {
     "id": "guardians",
@@ -139,14 +170,14 @@
     "release": "2014-08-01",
     "runtime": 121,
     "poster": "https://image.tmdb.org/t/p/w500/r7vmZjiyZw9rpJMQJdXpjgiCOk9.jpg",
-    "weight": 9,
+    "weight": 1,
     "topics": [
-      "cosmic"
+      "avengers"
     ],
-    "x": 305,
-    "y": 555,
+    "x": 330,
+    "y": 280,
     "intro": "Meet a very different team, far from Earth.",
-    "why": "Introduces the Guardians and the cosmic branch. It broadens a short route beyond the Earth-based Avengers.",
+    "why": "Optional cosmic background for the Infinity Saga. It is not treated as a direct Doomsday prerequisite.",
     "gap": "The Guardians team and its cosmic setting.",
     "source": "https://movies.disney.com/marvels-guardians-of-the-galaxy",
     "cast": [
@@ -155,7 +186,8 @@
       "Dave Bautista"
     ],
     "runtimeProvenance": "Kaggle; cross-checked with Disney",
-    "ragSourceId": "60"
+    "ragSourceId": "60",
+    "priority": "optional"
   },
   {
     "id": "ultron",
@@ -165,15 +197,14 @@
     "release": "2015-05-01",
     "runtime": 141,
     "poster": "https://image.tmdb.org/t/p/w500/4ssDuvEDkSArWEdyBl2X5EHvYKU.jpg",
-    "weight": 6,
+    "weight": 1,
     "topics": [
-      "avengers",
-      "division"
+      "avengers"
     ],
-    "x": 520,
-    "y": 115,
+    "x": 330,
+    "y": 460,
     "intro": "The team faces a threat of its own making.",
-    "why": "Builds on the Avengers ensemble and expands its relationships before later team conflicts.",
+    "why": "Optional extra Avengers history. The shortlist prioritizes the later team transition instead.",
     "gap": "The expanded Avengers ensemble and its relationships.",
     "source": "https://movies.disney.com/marvels-avengers-age-of-ultron",
     "cast": [
@@ -182,7 +213,8 @@
       "Mark Ruffalo"
     ],
     "runtimeProvenance": "Kaggle; cross-checked with Disney",
-    "ragSourceId": "65"
+    "ragSourceId": "65",
+    "priority": "optional"
   },
   {
     "id": "civil-war",
@@ -192,15 +224,15 @@
     "release": "2016-05-06",
     "runtime": 147,
     "poster": "https://image.tmdb.org/t/p/w500/rAGiXaUfPzY7CDEyNKUofk3Kw2e.jpg",
-    "weight": 8,
+    "weight": 4,
     "topics": [
-      "division",
-      "avengers"
+      "avengers",
+      "newguard"
     ],
-    "x": 735,
-    "y": 115,
+    "x": 330,
+    "y": 640,
     "intro": "The heroes disagree about who should oversee them.",
-    "why": "Explores the team\u2019s disagreements. A high-priority bridge in this curated route, with earlier team context helpful.",
+    "why": "Useful team relationship background for Steve, Sam and Bucky, without treating every origin film as required.",
     "gap": "The disagreement between the Avengers.",
     "source": "https://movies.disney.com/captain-america-civil-war",
     "cast": [
@@ -209,7 +241,8 @@
       "Scarlett Johansson"
     ],
     "runtimeProvenance": "Kaggle; cross-checked with Disney",
-    "ragSourceId": "74"
+    "ragSourceId": "74",
+    "priority": "useful"
   },
   {
     "id": "strange",
@@ -219,14 +252,14 @@
     "release": "2016-11-04",
     "runtime": 115,
     "poster": "https://image.tmdb.org/t/p/w500/xf8PbyQcR5ucXErmZNzdKR0s8ya.jpg",
-    "weight": 7,
+    "weight": 1,
     "topics": [
-      "magic"
+      "multiverse"
     ],
-    "x": 520,
-    "y": 335,
+    "x": 330,
+    "y": 820,
     "intro": "Discover the mystical side of the Marvel universe.",
-    "why": "Introduces Stephen Strange and the magical branch. Adds a distinct setting to an otherwise Earth-and-space route.",
+    "why": "Optional introduction to Doctor Strange before his later multiverse story; no Doomsday casting claim is made.",
     "gap": "Stephen Strange and the mystical side of the MCU.",
     "source": "https://movies.disney.com/doctor-strange",
     "cast": [
@@ -235,7 +268,8 @@
       "Rachel McAdams"
     ],
     "runtimeProvenance": "Kaggle; cross-checked with Disney",
-    "ragSourceId": "78"
+    "ragSourceId": "78",
+    "priority": "optional"
   },
   {
     "id": "ragnarok",
@@ -245,14 +279,14 @@
     "release": "2017-11-03",
     "runtime": 130,
     "poster": "https://image.tmdb.org/t/p/w500/rzRwTcFvttcN1ZpX2xv4j3tSdJu.jpg",
-    "weight": 7,
+    "weight": 5,
     "topics": [
-      "asgard"
+      "avengers"
     ],
-    "x": 735,
-    "y": 335,
+    "x": 570,
+    "y": 100,
     "intro": "Return to Thor\u2019s world for a cosmic adventure.",
-    "why": "Our later Asgard checkpoint before Infinity War. The earlier Thor film gives more family background.",
+    "why": "Useful Thor and Loki background. Official Doomsday casting includes their actors; this does not make the earlier film mandatory.",
     "gap": "Thor\u2019s later journey and the Asgard branch.",
     "source": "https://movies.disney.com/thor-ragnarok",
     "cast": [
@@ -261,7 +295,8 @@
       "Tom Hiddleston"
     ],
     "runtimeProvenance": "Kaggle; cross-checked with Disney",
-    "ragSourceId": "87"
+    "ragSourceId": "87",
+    "priority": "useful"
   },
   {
     "id": "black-panther",
@@ -271,14 +306,14 @@
     "release": "2018-02-16",
     "runtime": 134,
     "poster": "https://image.tmdb.org/t/p/w500/uxzzxijgPIY7slzFvMotPv8wjKA.jpg",
-    "weight": 7,
+    "weight": 1,
     "topics": [
       "wakanda"
     ],
-    "x": 735,
-    "y": 555,
+    "x": 570,
+    "y": 280,
     "intro": "Discover T\u2019Challa and the nation of Wakanda.",
-    "why": "Introduces Wakanda\u2019s people and setting. Adds a distinct world that is represented in Infinity War.",
+    "why": "Optional first introduction to Wakanda; Wakanda Forever has higher priority for more recent ensemble context.",
     "gap": "Wakanda\u2019s people, technology, and setting.",
     "source": "https://movies.disney.com/black-panther",
     "cast": [
@@ -287,7 +322,8 @@
       "Lupita Nyong'o"
     ],
     "runtimeProvenance": "Kaggle; cross-checked with Disney",
-    "ragSourceId": "91"
+    "ragSourceId": "91",
+    "priority": "optional"
   },
   {
     "id": "infinity-war",
@@ -297,12 +333,14 @@
     "release": "2018-04-27",
     "runtime": 149,
     "poster": "https://image.tmdb.org/t/p/w500/7WsyChQLEftFiDOVTGkv3hFpyyt.jpg",
-    "weight": 0,
-    "topics": [],
-    "x": 950,
-    "y": 335,
+    "weight": 6,
+    "topics": [
+      "avengers"
+    ],
+    "x": 570,
+    "y": 460,
     "intro": "The Avengers and their allies face a shared threat.",
-    "why": "Your destination brings the Earth, cosmic, and mystical branches together. This route offers background, not a guarantee of complete understanding.",
+    "why": "Prioritized as the direct setup for Endgame. This pairing gives a newcomer the Avengers baseline without requiring the whole Infinity Saga.",
     "gap": "",
     "source": "https://movies.disney.com/avengers-infinity-war",
     "cast": [
@@ -311,6 +349,198 @@
       "Chris Hemsworth"
     ],
     "runtimeProvenance": "Kaggle; cross-checked with Disney",
-    "ragSourceId": "94"
+    "ragSourceId": "94",
+    "priority": "high"
+  },
+  {
+    "id": "endgame",
+    "sourceId": "107",
+    "ragSourceId": "107",
+    "title": "Avengers: Endgame",
+    "year": 2019,
+    "release": "2019-04-26",
+    "runtime": 181,
+    "poster": "https://image.tmdb.org/t/p/w500/ulzhLuWrPK07P1YkdWQLZnQh1JL.jpg",
+    "topics": [
+      "avengers",
+      "multiverse"
+    ],
+    "priority": "high",
+    "weight": 12,
+    "intro": "The culmination of the Infinity Saga.",
+    "why": "Prioritized for the Avengers story baseline. The directors explicitly connect their Doomsday starting point to Endgame. Infinity War supplies its immediate setup.",
+    "gap": "this film\u2019s character or world background",
+    "source": "https://movies.disney.com/avengers-endgame",
+    "cast": [
+      "Robert Downey Jr.",
+      "Chris Evans",
+      "Mark Ruffalo"
+    ],
+    "runtimeProvenance": "Official studio runtime checked 2026-11-02",
+    "x": 570,
+    "y": 640
+  },
+  {
+    "id": "shang-chi",
+    "sourceId": "121",
+    "ragSourceId": "121",
+    "title": "Shang-Chi and the Legend of the Ten Rings",
+    "year": 2021,
+    "release": "2021-09-03",
+    "runtime": 132,
+    "poster": "https://image.tmdb.org/t/p/w500/9f2Q0U3IOsLgrI2HkvldwSABZy5.jpg",
+    "topics": [
+      "newguard"
+    ],
+    "priority": "useful",
+    "weight": 5,
+    "intro": "Meet Shang-Chi and the Ten Rings.",
+    "why": "Useful character background for Shang-Chi, whose actor appears in official Doomsday casting. His earlier film is context, not a proven plot requirement.",
+    "gap": "this film\u2019s character or world background",
+    "source": "https://www.imdb.com/title/tt9376612/",
+    "cast": [
+      "Simu Liu",
+      "Awkwafina",
+      "Tony Leung Chiu-wai"
+    ],
+    "runtimeProvenance": "Kaggle runtime; external title reference",
+    "x": 810,
+    "y": 100
+  },
+  {
+    "id": "multiverse-madness",
+    "sourceId": "128",
+    "ragSourceId": "128",
+    "title": "Doctor Strange in the Multiverse of Madness",
+    "year": 2022,
+    "release": "2022-05-06",
+    "runtime": 126,
+    "poster": "https://image.tmdb.org/t/p/w500/ddJcSKbcp4rKZTmuyWaMhuwcfMz.jpg",
+    "topics": [
+      "multiverse"
+    ],
+    "priority": "useful",
+    "weight": 6,
+    "intro": "Explore a story across alternate realities.",
+    "why": "Useful background for multiverse terminology. This is a thematic connection, not confirmation that its events or lead character are required for Doomsday.",
+    "gap": "this film\u2019s character or world background",
+    "source": "https://www.imdb.com/title/tt9419884/",
+    "cast": [
+      "Benedict Cumberbatch",
+      "Elizabeth Olsen",
+      "Chiwetel Ejiofor"
+    ],
+    "runtimeProvenance": "Kaggle runtime; external title reference",
+    "x": 810,
+    "y": 280
+  },
+  {
+    "id": "wakanda-forever",
+    "sourceId": "134",
+    "ragSourceId": "134",
+    "title": "Black Panther: Wakanda Forever",
+    "year": 2022,
+    "release": "2022-11-11",
+    "runtime": 161,
+    "poster": "https://image.tmdb.org/t/p/w500/sv1xJUazXeYqALzczSZ3O6nkH75.jpg",
+    "topics": [
+      "wakanda"
+    ],
+    "priority": "high",
+    "weight": 5,
+    "intro": "Return to Wakanda and meet Talokan.",
+    "why": "Prioritized for the Wakandan and Talokan branches named in official Doomsday coverage. It supplies more recent context than the first Black Panther.",
+    "gap": "this film\u2019s character or world background",
+    "source": "https://www.imdb.com/title/tt9114286/",
+    "cast": [
+      "Letitia Wright",
+      "Lupita Nyong'o",
+      "Danai Gurira"
+    ],
+    "runtimeProvenance": "Kaggle runtime; external title reference",
+    "x": 810,
+    "y": 460
+  },
+  {
+    "id": "brave-new-world",
+    "sourceId": "150",
+    "ragSourceId": "150",
+    "title": "Captain America: Brave New World",
+    "year": 2025,
+    "release": "2025-02-14",
+    "runtime": 118,
+    "poster": "https://image.tmdb.org/t/p/w500/pzIddUEMWhWzfvLI3TwxUG2wGoi.jpg",
+    "topics": [
+      "avengers",
+      "newguard"
+    ],
+    "priority": "high",
+    "weight": 7,
+    "intro": "Meet Sam Wilson as Captain America.",
+    "why": "Prioritized for Sam Wilson and Joaquin Torres, whose actors appear in official Doomsday casting. This provides recent character context without requiring every earlier Captain America film.",
+    "gap": "this film\u2019s character or world background",
+    "source": "https://movies.disney.com/captain-america-brave-new-world",
+    "cast": [
+      "Anthony Mackie",
+      "Harrison Ford",
+      "Danny Ramirez"
+    ],
+    "runtimeProvenance": "Official studio runtime checked 2026-11-02",
+    "x": 1050,
+    "y": 100
+  },
+  {
+    "id": "thunderbolts",
+    "sourceId": "152",
+    "ragSourceId": "152",
+    "title": "Thunderbolts*",
+    "year": 2025,
+    "release": "2025-05-02",
+    "runtime": 126,
+    "poster": "https://image.tmdb.org/t/p/w500/hqcexYHbiTBfDIdDWxrxPtVndBX.jpg",
+    "topics": [
+      "newguard"
+    ],
+    "priority": "high",
+    "weight": 8,
+    "intro": "An unconventional group becomes a team.",
+    "why": "Prioritized as the ensemble introduction for the Thunderbolts branch named in official Doomsday coverage. Individual origin films are lower-priority background.",
+    "gap": "this film\u2019s character or world background",
+    "source": "https://movies.disney.com/thunderbolts",
+    "cast": [
+      "Florence Pugh",
+      "Sebastian Stan",
+      "Julia Louis-Dreyfus"
+    ],
+    "runtimeProvenance": "Official studio runtime checked 2026-11-02",
+    "x": 1050,
+    "y": 280
+  },
+  {
+    "id": "fantastic-four",
+    "sourceId": "154",
+    "ragSourceId": "154",
+    "title": "The Fantastic Four: First Steps",
+    "year": 2025,
+    "release": "2025-07-25",
+    "runtime": 115,
+    "poster": "https://image.tmdb.org/t/p/w500/nf5qaSEvyYSNeFH0YhSs5EsBLX9.jpg",
+    "topics": [
+      "fantastic"
+    ],
+    "priority": "high",
+    "weight": 10,
+    "intro": "Meet Reed, Sue, Johnny and Ben as a family.",
+    "why": "Prioritized as the introduction to the Fantastic Four ensemble named in official Doomsday casting. It provides a compact entry point to their world.",
+    "gap": "this film\u2019s character or world background",
+    "source": "https://movies.disney.com/the-fantastic-four-first-steps",
+    "cast": [
+      "Pedro Pascal",
+      "Vanessa Kirby",
+      "Ebon Moss-Bachrach"
+    ],
+    "runtimeProvenance": "Official studio runtime checked 2026-11-02",
+    "x": 1050,
+    "y": 460
   }
 ]

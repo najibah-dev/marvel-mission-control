@@ -10,7 +10,7 @@ export function DashboardMetrics({ films, minutes, remaining, topics, fits, shor
   return <section className="metric-grid" aria-label="Current plan metrics">
     <article className="metric-card"><span><Film size={16}/> FILMS IN YOUR PLAN</span><strong>{films}<small> films</small></strong><p>Unwatched titles, in release order</p></article>
     <article className="metric-card"><span><Clock3 size={16}/> PLANNED WATCH TIME</span><strong>{duration(minutes)}</strong><p>Already-watched films excluded</p></article>
-    <article className={'metric-card '+(!fits?'metric-alert':'')}><span><Layers3 size={16}/>{fits?'TIME LEFT IN BUDGET':'MORE TIME NEEDED'}</span><strong>{duration(fits?remaining:shortfall)}</strong><p>{fits?'Available after your selected route':'To fit the destination movie'}</p></article>
+    <article className={'metric-card '+(!fits?'metric-alert':'')}><span><Layers3 size={16}/>{fits?'TIME LEFT IN BUDGET':'MORE TIME NEEDED'}</span><strong>{duration(fits?remaining:shortfall)}</strong><p>{fits?'Available after your selected route':'To fit the shortest unwatched film'}</p></article>
     <article className="metric-card"><span><Network size={16}/> STORY TOPICS REPRESENTED</span><strong>{topics}<small> / 6 topics</small></strong><p>In your plan or watched history</p></article>
   </section>;
 }
@@ -27,9 +27,9 @@ export function DashboardAnalysis({ topics, scenarios, hours, focus, onFocus, on
       </button>)}</div><div className="chart-key"><span><i className="topic-seen"/> Watched</span><span><i className="topic-planned"/> In plan</span><span><i/> Not selected</span></div><p className="chart-note">Counts are films per topic. A film can appear in several rows. These editorial categories are not a readiness score.</p>
     </div>
     <div className="analysis-card"><div className="analysis-heading"><div><span className="section-label">WHAT-IF COMPARISON</span><h2>What could more time unlock?</h2></div><Clock3 size={18}/></div>
-      <p className="analysis-description">Compare the same watched history at three time budgets.</p>
-      <div className="scenario-table-wrap"><table className="scenario-table"><caption className="sr-only">Watch plans at 8, 12, and 20 hours</caption><thead><tr><th>Budget</th><th>Films</th><th>Topics</th><th>Watch time</th><th><span className="sr-only">Apply budget</span></th></tr></thead><tbody>{scenarios.map(s=><tr key={s.hours} className={hours===s.hours?'current-scenario':''}><th scope="row">{s.hours}h{hours===s.hours&&<span className="scenario-current">CURRENT</span>}</th><td>{s.films}</td><td>{s.topics}/6</td><td>{duration(s.minutes)}</td><td><button disabled={!ready||hours===s.hours} aria-label={`Use ${s.hours} hour budget`} onClick={()=>onBudget(s.hours)}><ArrowUpRight size={17}/></button></td></tr>)}</tbody></table></div>
-      <div className="analysis-callout"><span className="section-label">FROM INSIGHT TO ACTION</span><p>Try a budget, explore the connections, then ask AI to explain a film’s editorial value.</p><small>Plans and metrics are calculated by code. AI runs only when you request an explanation.</small></div>
+      <p className="analysis-description">Compare weekly viewing time before your chosen deadline.</p>
+      <div className="scenario-table-wrap"><table className="scenario-table"><caption className="sr-only">Watch plans at 1, 2, and 4 hours per week</caption><thead><tr><th>Per week</th><th>Films</th><th>Topics</th><th>Watch time</th><th><span className="sr-only">Apply budget</span></th></tr></thead><tbody>{scenarios.map(s=><tr key={s.hours} className={hours===s.hours?'current-scenario':''}><th scope="row">{s.hours}h/wk{hours===s.hours&&<span className="scenario-current">CURRENT</span>}</th><td>{s.films}</td><td>{s.topics}/6</td><td>{duration(s.minutes)}</td><td><button disabled={!ready||hours===s.hours} aria-label={`Use ${s.hours} hours per week`} onClick={()=>onBudget(s.hours)}><ArrowUpRight size={17}/></button></td></tr>)}</tbody></table></div>
+      <div className="analysis-callout"><span className="section-label">FROM INSIGHT TO ACTION</span><p>Try a weekly pace, explore the connections, then ask AI to explain a film’s editorial value.</p><small>Plans and metrics are calculated by code. AI runs only when you request an explanation.</small></div>
     </div>
   </section>;
 }

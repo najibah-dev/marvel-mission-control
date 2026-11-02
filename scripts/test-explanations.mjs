@@ -4,7 +4,7 @@ import {prepareExplanation, validateExplanation} from '../lib/explain.ts';
 import {createExplanationHandler} from '../lib/explanation-service.ts';
 import {restorePreferences} from '../lib/preferences.mjs';
 
-const input={movieId:'avengers',hours:12,watched:[]};
+const input={movieId:'avengers',hours:40,watched:[]};
 const body={text:'The Avengers brings the core heroes together and connects Earth with a larger world.',sourceIds:['avengers']};
 const request=(data=input,origin='http://localhost')=>new Request('http://localhost/api/explain',{
   method:'POST',headers:{'Content-Type':'application/json',Origin:origin},body:JSON.stringify(data)
@@ -14,8 +14,11 @@ async function check(name,fn){await fn();cases++;console.log('PASS:',name);}
 
 await check('selection status is computed from the plan',()=>{
   assert.equal(prepareExplanation(input).context.status,'included');
-  assert.equal(prepareExplanation({...input,movieId:'iron-man'}).context.status,'outside budget');
+  assert.equal(prepareExplanation({...input,hours:2,movieId:'iron-man'}).context.status,'outside budget');
   assert.equal(prepareExplanation({...input,watched:['avengers']}).context.status,'already watched');
+  assert.equal(prepareExplanation({...input,watched:movies.map(m=>m.id)}).context.status,'already watched');
+  assert.equal(prepareExplanation(input).context.destination,'Avengers: Doomsday');
+  assert(!prepareExplanation(input).context.watchOrder.includes('doomsday'));
 });
 await check('invalid inputs rejected before provider call',async()=>{
   const handler=createExplanationHandler(()=> 'test',async()=>{throw new Error('Provider must not be called');});
