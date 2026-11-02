@@ -46,3 +46,7 @@ next-env.d.ts
 /.codex/
 /outputs/
 /work/
+
+# Internal planning and review notes stay out of the public repository.
+/POWER_BI_TALKING_POINTS.md
+/REVIEW_LOG.md

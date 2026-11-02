@@ -1,6 +1,6 @@
 # Marvel Mission Control — Your Marvel Journey
 
-A movie-only catch-up planner leading to **Avengers: Doomsday**, using 20 curated films from Raya's Kaggle dataset. Set hours per week and a finish-before date; the app chooses background films by editorial priority, excludes watched titles, and schedules the selected films in release order. It does not claim every film is integral or that the shortlist guarantees readiness.
+A movie-only catch-up planner leading to **Avengers: Doomsday**, using 20 curated films from a Kaggle Marvel dataset. Set hours per week and a finish-before date; the app chooses background films by editorial priority, excludes watched titles, and schedules the selected films in release order. It does not claim every film is integral or that the shortlist guarantees readiness.
 
 ## Run
 
@@ -58,5 +58,3 @@ Planner tests cover 726 budget/history cases and compare optimal scores against 
 3. Follow the map to Doomsday, or explore a story topic.
 4. Mark the displayed film watched and see the next recommendation.
 5. Read “Why this film?” and inspect the sources and earlier story connections.
-
-[Review log](REVIEW_LOG.md) records the five AI-persona rounds and verification limits. This app is not integrated with Power BI.
