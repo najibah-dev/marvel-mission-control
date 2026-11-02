@@ -197,3 +197,15 @@ Small-fix review: one proportionate five-perspective review and recheck. User re
 - FDE: TypeScript passed; production build/package and private deployment tracked by the delivery receipt. Actual browser click and reload remain unverified due unavailable browser tooling.
 
 Recheck: inspected all three updated call sites, no remaining toggle callbacks; native label/checkbox association retained. No unrelated UI changes. Automated regression passed. This addresses the fragile event handling and missing local feedback; user-visible resolution still needs a browser check.
+
+## Recommendation advancement fix — 2026-11-01
+
+One proportionate five-perspective review and recheck for the reported unchanged recommendation panel. Previous fix changed watched state but not selected film; inspected page handler and confirmed that missing transition in source.
+
+- PM: selected film advances when that film is marked watched; manual browsing remains possible.
+- Architect: calculate next film from updated watched history; abort pending explanation and clear old text immediately. No extra AI call.
+- BA: select first film of recalculated route, with destination-only fallback and explicit empty-plan message. Restore a valid next recommendation on page reload.
+- Data Analyst: actual default 12h regression advances The Avengers to Guardians of the Galaxy. Destination-only, infeasible, and all-watched cases tested.
+- FDE: added WATCH NEXT label and transition confirmation. TypeScript, 28 dashboard cases, watched-state regression, and next-recommendation regressions passed. Build/deployment receipt tracked separately.
+
+Rechecked updated handler, saved-state initialization, and explanation abort/reset path. Source behavior and helper regression verified; browser click verification remains unavailable. One review plus recheck completed, not five full rounds or independent agents.

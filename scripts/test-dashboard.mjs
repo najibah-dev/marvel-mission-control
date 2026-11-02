@@ -43,3 +43,13 @@ progress=setMovieWatched(progress,'avengers',false);
 assert.deepEqual(progress,[]);
 assert(planRoute(movies,12,progress).selected.some(m=>m.id==='avengers'));
 console.log('PASS: repeated check/uncheck, route exclusion/restoration, saved progress round-trip');
+
+const {nextRecommendation}=await import('../lib/dashboard.mjs');
+assert.equal(nextRecommendation(movies,12,[]).id,'avengers');
+const afterWatching=nextRecommendation(movies,12,['avengers']);
+assert(afterWatching && afterWatching.id!=='avengers');
+assert.equal(afterWatching.id,planRoute(movies,12,['avengers']).selected[0].id);
+assert.equal(nextRecommendation(movies,2.5,[]).id,'infinity-war');
+assert.equal(nextRecommendation(movies,0,[]),null);
+assert.equal(nextRecommendation(movies,30,movies.map(m=>m.id)),null);
+console.log(`PASS: next recommendation advances Avengers -> ${afterWatching.title}; destination-only and empty-plan boundaries`);

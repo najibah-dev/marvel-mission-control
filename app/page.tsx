@@ -5,7 +5,7 @@ import { Slider } from '@/components/ui/slider';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import movies from '@/lib/catalog.json';
 import { DashboardMetrics, DashboardAnalysis } from '@/components/dashboard-panels';
-import { topicBreakdown, budgetScenarios } from '@/lib/dashboard.mjs';
+import { topicBreakdown, budgetScenarios, nextRecommendation } from '@/lib/dashboard.mjs';
 import { restorePreferences, setMovieWatched } from '@/lib/preferences.mjs';
 import { registerPlanReader } from '@/lib/webmcp';
 import { CONNECTIONS, TOPICS, duration, planRoute } from '@/lib/planner.mjs';
@@ -15,6 +15,7 @@ const topicNames=TOPICS as Record<string,string>;
 const STORAGE='marvel-mission-control-v1';
 export default function Home(){
  const [hours,setHours]=useState(12),[watched,setWatched]=useState<string[]>([]),[ready,setReady]=useState(false);
+ const [progressNotice,setProgressNotice]=useState('');
  const [topicFocus,setTopicFocus]=useState<string|null>(null);
  const [selected,setSelected]=useState('avengers'),[engineering,setEngineering]=useState(false);
  const [explanation,setExplanation]=useState<Explanation|null>(null),[loading,setLoading]=useState(false),[storageError,setStorageError]=useState(false);
@@ -30,11 +31,21 @@ export default function Home(){
  const currentPlan=useRef<unknown>(null);
  currentPlan.current={hours,watched,route:route.map((m:Movie)=>({id:m.id,title:m.title,runtime:m.runtime})),usedMinutes:plan.used,missingTopics:plan.missing};
  useEffect(()=>registerPlanReader(()=>currentPlan.current),[]);
- useEffect(()=>{try{const saved=restorePreferences(localStorage.getItem(STORAGE),movies);setHours(saved.hours);setWatched(saved.watched);}catch{setStorageError(true);}setReady(true);},[]);
+ useEffect(()=>{try{const saved=restorePreferences(localStorage.getItem(STORAGE),movies);setHours(saved.hours);setWatched(saved.watched);const next=nextRecommendation(movies,saved.hours,saved.watched);if(next)setSelected(next.id);}catch{setStorageError(true);}setReady(true);},[]);
  useEffect(()=>{if(ready)try{localStorage.setItem(STORAGE,JSON.stringify({hours,watched}));}catch{setStorageError(true);}},[hours,watched,ready]);
  useEffect(()=>{request.current?.abort();setLoading(false);setExplanation(null);},[selected,hours,watched]);
- function selectMovie(id:string){setSelected(id);document.getElementById('film-title')?.scrollIntoView({behavior:'auto',block:'center'});document.getElementById('film-title')?.focus({preventScroll:true});}
- function updateWatched(id:string,checked:boolean){setWatched(prev=>setMovieWatched(prev,id,checked));}
+ function selectMovie(id:string){setProgressNotice('');setSelected(id);document.getElementById('film-title')?.scrollIntoView({behavior:'auto',block:'center'});document.getElementById('film-title')?.focus({preventScroll:true});}
+ function updateWatched(id:string,checked:boolean){
+  const updated=setMovieWatched(watched,id,checked);
+  setWatched(updated);
+  request.current?.abort();setLoading(false);setExplanation(null);
+  if(checked&&id===selected){
+   const next=nextRecommendation(movies,hours,updated);
+   const title=movies.find(m=>m.id===id)!.title;
+   if(next){setSelected(next.id);setProgressNotice(`${title} marked watched. Your next recommendation is ${next.title}.`);}
+   else setProgressNotice(`${title} marked watched. No unwatched films fit your current plan. Increase the budget or explore films on the map.`);
+  }else setProgressNotice('');
+ }
  async function explain(){request.current?.abort();const controller=new AbortController();request.current=controller;setLoading(true);setExplanation(null);try{const res=await fetch('/api/explain',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({movieId:selected,hours,watched}),signal:controller.signal});if(!res.ok)throw new Error('Explanation unavailable');const data=await res.json() as Explanation;if(typeof data.text!=='string')throw new Error('Invalid explanation');if(!controller.signal.aborted)setExplanation(data);}catch{if(!controller.signal.aborted)setExplanation({text:film.why,mode:'curated',reason:'AI is unavailable. Showing the editorial note instead.'});}finally{if(!controller.signal.aborted)setLoading(false);}}
  function state(m:Movie){return watched.includes(m.id)?'watched':planned.has(m.id)?'planned':'omitted';}
  return <div className="mission-app">
@@ -60,7 +71,7 @@ export default function Home(){
     </aside>
    </div>
    <DashboardAnalysis topics={topics} scenarios={scenarios} hours={hours} focus={topicFocus} onFocus={focusTopic} onBudget={setHours} ready={ready}/>
-   <section className="film-detail" aria-labelledby="film-title"><div className="detail-poster"><img src={film.poster} alt={`${film.title} poster`}/></div><div className="detail-main"><div className="section-label">FILM INSIGHTS · {film.year}</div><h2 id="film-title" tabIndex={-1}>{film.title}</h2><p className="intro">{film.intro}</p><div className="detail-tags"><span><Clock3 size={14}/>{duration(film.runtime)}</span>{film.topics.map(t=><span key={t}>{topicNames[t]}</span>)}</div><label className="watched-label"><input type="checkbox" className="watched-checkbox" disabled={!ready} checked={watched.includes(film.id)} onChange={e=>updateWatched(film.id,e.currentTarget.checked)}/> I’ve watched this movie</label><p className="watched-confirmation" role="status">{watched.includes(film.id)?`Marked watched. Your plan now excludes this film. ${watched.length} of 12 watched.`:"Not marked watched. Check this to update your plan."}</p></div><div className="detail-reason"><span className="section-label">EXPLAIN THIS CONNECTION</span><p>{explanation?.text||film.why}</p>{explanation&&<small className="explanation-status">{explanation.mode==='ai'?'AI draft · check against the editorial notes below':explanation.reason||'Editorial explanation'}</small>}<div className="detail-actions"><button className="ai-button" onClick={explain} disabled={loading||!ready}><Sparkles size={15}/>{loading?'Reading the notes…':'Explain my recommendation'}<ArrowUpRight size={15}/></button><a href={film.source} target="_blank" rel="noreferrer">Movie source <ExternalLink size={13}/></a></div><details><summary>Sources & earlier context <ChevronRight size={13}/></summary><p><strong>Editorial note:</strong> {film.why}</p>{explanation?.sourceIds?.map(id=>{const source=movies.find(m=>m.id===id);return source&&<p key={id}><strong>AI-cited note · {source.title}:</strong> {source.why}</p>;})}<p>{film.runtimeProvenance}. Catalog record {film.sourceId}. Route notes and connections are editorial interpretations; external pages may contain spoilers.</p>{CONNECTIONS.filter(([,b]:string[])=>b===film.id).map(([a]:string[])=>{const m=movies.find(m=>m.id===a)!;return <button className="context-link" key={a} onClick={()=>setSelected(a)}>{m.title}<span>{watched.includes(a)?'Watched':planned.has(a)?'In route':'Omitted'} →</span></button>;})}{film.gap&&<p>If omitted: less background on {film.gap}</p>}</details></div></section>
+   <section className="film-detail" aria-labelledby="film-title"><div className="detail-poster"><img src={film.poster} alt={`${film.title} poster`}/></div><div className="detail-main"><div className="section-label">{route[0]?.id===film.id?'WATCH NEXT':'FILM INSIGHTS'} · {film.year}</div>{progressNotice&&<p className="watched-confirmation" role="status">{progressNotice}</p>}<h2 id="film-title" tabIndex={-1}>{film.title}</h2><p className="intro">{film.intro}</p><div className="detail-tags"><span><Clock3 size={14}/>{duration(film.runtime)}</span>{film.topics.map(t=><span key={t}>{topicNames[t]}</span>)}</div><label className="watched-label"><input type="checkbox" className="watched-checkbox" disabled={!ready} checked={watched.includes(film.id)} onChange={e=>updateWatched(film.id,e.currentTarget.checked)}/> I’ve watched this movie</label><p className="watched-confirmation" role="status">{watched.includes(film.id)?`Marked watched. Your plan now excludes this film. ${watched.length} of 12 watched.`:"Not marked watched. Check this to update your plan."}</p></div><div className="detail-reason"><span className="section-label">EXPLAIN THIS CONNECTION</span><p>{explanation?.text||film.why}</p>{explanation&&<small className="explanation-status">{explanation.mode==='ai'?'AI draft · check against the editorial notes below':explanation.reason||'Editorial explanation'}</small>}<div className="detail-actions"><button className="ai-button" onClick={explain} disabled={loading||!ready}><Sparkles size={15}/>{loading?'Reading the notes…':'Explain my recommendation'}<ArrowUpRight size={15}/></button><a href={film.source} target="_blank" rel="noreferrer">Movie source <ExternalLink size={13}/></a></div><details><summary>Sources & earlier context <ChevronRight size={13}/></summary><p><strong>Editorial note:</strong> {film.why}</p>{explanation?.sourceIds?.map(id=>{const source=movies.find(m=>m.id===id);return source&&<p key={id}><strong>AI-cited note · {source.title}:</strong> {source.why}</p>;})}<p>{film.runtimeProvenance}. Catalog record {film.sourceId}. Route notes and connections are editorial interpretations; external pages may contain spoilers.</p>{CONNECTIONS.filter(([,b]:string[])=>b===film.id).map(([a]:string[])=>{const m=movies.find(m=>m.id===a)!;return <button className="context-link" key={a} onClick={()=>setSelected(a)}>{m.title}<span>{watched.includes(a)?'Watched':planned.has(a)?'In route':'Omitted'} →</span></button>;})}{film.gap&&<p>If omitted: less background on {film.gap}</p>}</details></div></section>
    <footer><span>MARVEL MISSION CONTROL <span className="footer-divider">/</span> A fan-made learning project. Not affiliated with Marvel.</span><span>Curated connections. Transparent tradeoffs.</span></footer>
   </main>
  </div>;
